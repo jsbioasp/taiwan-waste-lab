@@ -1,0 +1,16 @@
+{
+  "task": "segmentation",
+  "channels": 3,
+  "heads": {
+    "source_a": 2,
+    "source_b": 2
+  },
+  "width": 8,
+  "epochs": 3,
+  "batch_size": 4,
+  "seed": 42,
+  "lr": 0.003,
+  "amp": true,
+  "cpu_threads": 2,
+  "aux_weight": 0
+}

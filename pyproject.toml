@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "taiwan-waste-lab"
+version = "0.1.0"
+description = "Reproducible low-compute waste and spectral identification experiments"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24,<3", "scikit-learn>=1.3,<2", "torch>=2.2,<3"]
+[project.optional-dependencies]
+geo = ["rasterio>=1.3,<2", "pyshp>=2.3,<4"]
+aerial = ["ultralytics>=8.3,<9"]
+[project.scripts]
+waste-lab = "waste_lab.cli:main"
+[tool.setuptools.packages.find]
+include = ["waste_lab*"]
+[tool.setuptools.package-data]
+waste_lab = ["catalog.json"]

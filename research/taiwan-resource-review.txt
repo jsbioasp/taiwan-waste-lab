@@ -1,0 +1,162 @@
+# Taiwan teams must build their labels
+
+Most of the benchmark datasets behind today's chemical and waste detection models are free to download, but only a few can legally train a commercial product. Among the remote-sensing sets, **MARIDA and MADOS (marine debris, CC BY 4.0) are the only reviewed waste datasets cleared for commercial use**. STARCOP (CC BY-NC), MARS-S2L (CC BY-NC-SA), AerialWaste (CC BY-NC-ND) and the Sun et al. global dumpsite set (academic only) all bar it. On the spectral side the picture is murkier: RRUFF is licensed "for educational purposes", MLROD's code is CC BY-NC, and Bacteria-ID, API and MHS state no license at all, so treat them as permission-required. None of the reviewed datasets contains a confirmed Taiwan sample. Taiwan's own open data is rich in **geocoded label lists** (MOENV's monthly list of dumping sites with coordinates, OCA beach-cleanup tonnage, landfill coordinates, hourly NMHC readings) and nearly empty in **labelled imagery or spectra**: the only public Taiwan aerial litter dataset is NTOU's small HAIDA set, and no open Taiwan Raman, FTIR or hyperspectral library turned up. Methane is a special case. Taiwan has no fossil-fuel extraction, landfill methane has collapsed since the 1990s, and no public satellite plume over Taiwan was found, so a methane module will lean on ground stations and free EMIT/Carbon Mapper products rather than local training data. The practical path is to train on CC BY and public-domain sources, use Taiwan government lists as weak labels over free Sentinel imagery, and collect your own drone imagery and reference spectra for the last mile.
+
+Several Taiwan government portals (data.gov.tw, data.moenv.gov.tw, cca.gov.tw) blocked automated access during research, so some Taiwan items rest on mirrors or search titles. These are flagged in the tables and collected in the gaps section. License readings here are not legal advice.
+
+## Two of eleven reviewed benchmarks allow commercial training
+
+The reviewed models drew on four families of data. The table below gives the commercial-use verdict first, because that is what decides whether a dataset can go into a product or only into a research prototype.
+
+### Chemical spectra (Raman, IR)
+
+| Dataset | What it is | Size and host | License | Commercial use |
+|---|---|---|---|---|
+| RRUFF | Raman, IR, XRD and chemistry for minerals, ASCII spectra with rich metadata | Bulk zips on rruff.info, migrating to rruff.net | "For educational purposes", credit required ([rruff.info](https://rruff.info/about/about_download.php)) | Unclear, ask the owners |
+| RamanSPy built-in sets | Loaders only: Bacteria, THP-1 cells, MDA-MB-231, COVID-19 serum, adenine SERS, wheat, RRUFF | Dropbox, Zenodo, Google Drive, Kaggle | None stated for any set ([RamanSPy docs](https://ramanspy.readthedocs.io/en/latest/datasets.html)) | Unknown per set |
+| Bacteria-ID (Ho et al. 2019) | 80k+ spectra, 30+ isolates, 633 nm, plus clinical splits | Authors' Dropbox, manual download | Not verified | Unknown |
+| MLROD (Berlanga et al. 2022) | Mars-analog minerals, 532 nm, 89,121 training and 39,720 test spectra, 15 classes ([arXiv 2601.16107](https://arxiv.org/html/2601.16107)) | Possibly NASA AHED (unverified) | Code is CC BY-NC ([Zenodo 7036374](https://zenodo.org/record/7036374)); data license unconfirmed | No (code); data unknown |
+| API Raman (Flanagan & Glavin 2025) | 3,510 spectra of 31 pharmaceutical compounds at 785 nm ([arXiv 2601.16107](https://arxiv.org/html/2601.16107)) | Repository not verified | Not verified (Scientific Data usually requires open terms) | Probably, unconfirmed |
+| KnowItAll (Wiley) | 28,000+ Raman spectra in 33 databases ([Wiley](https://sciencesolutions.wiley.com/?p=790)) | Subscription by quote | Commercial EULA, ML terms not public | Paid, check EULA |
+
+The 2026 benchmark by Sineesh and Kamsali trained Deep CNN, SANet, RamanNet, Transformer, RamanFormer, Random Forest and SVC models on MLROD, Bacteria-ID and API, and it **states no license for any of the three** ([arXiv 2601.16107](https://arxiv.org/html/2601.16107)). That is typical of the field. One time-sensitive warning: rruff.info now says its data is about three years out of date and the site will go offline, with new data going only to the RRUFF.net beta ([rruff.info](https://rruff.info/index.php)). Any pipeline that relies on RamanSPy's `rruff()` loader, which points at rruff.info, should expect it to break.
+
+### Methane plumes
+
+| Dataset | What it is | Size and host | License | Commercial use |
+|---|---|---|---|---|
+| STARCOP | AVIRIS-NG hyperspectral tiles with refined plume masks, plus simulated WorldView-3 views | About 61 GB, Zenodo, open ([Zenodo 7863343](https://zenodo.org/records/7863343)) | Data CC BY-NC 4.0, code GPL-3.0 ([GitHub](https://github.com/spaceml-org/STARCOP)) | No |
+| Methane Hot Spots (MHS) | About 1,185 AVIRIS-NG flight lines, 3,961 plume sites in six US states, masks, boxes and ppm maps ([arXiv 2304.02767](https://arxiv.org/pdf/2304.02767)) | Likely several TB; download path not verified | Code under a "UCSB license"; data license unstated ([GitHub](https://github.com/UCSB-VRL/MethaneMapper-Spectral-Absorption-aware-Hyperspectral-Transformer-for-Methane-Detection)) | Unknown |
+| MARS-S2L (UNEP-IMEO) | About 87,000 Sentinel-2/Landsat pairs, 5,600+ verified plumes, CH4Net checkpoint | About 100 GB, Hugging Face, ungated | CC BY-NC-SA 4.0, explicitly covering models too ([HF](https://huggingface.co/datasets/UNEP-IMEO/MARS-S2L/blob/main/README.md)) | No |
+
+STARCOP's HyperSTARCOP model beat a matched-filter baseline by more than 25% F1 ([Nature Sci Rep](https://www.nature.com/articles/s41598-023-44918-6)), so it is the strongest reference, but it is non-commercial. MARS-S2L is notable because it **extends the NC-SA terms to its pre-trained weights**, which removes the usual "weights are not derivatives" argument.
+
+### Marine debris
+
+| Dataset | What it is | Size and host | License | Commercial use |
+|---|---|---|---|---|
+| MARIDA | 1,381 Sentinel-2 patches, 15 classes, 63 scenes in 11 countries including China, Philippines, Vietnam, South Korea, Indonesia | 1.2 GB zipped, Zenodo ([Zenodo 5151941](https://zenodo.org/record/5151941)) | CC BY 4.0 | Yes, with attribution |
+| MADOS (MARIDA successor, 2024) | 2,803 patches from 174 scenes, adds oil spill, oil platform, jellyfish | 4.0 GB, Zenodo ([Zenodo 10664073](https://zenodo.org/records/10664073)) | CC BY 4.0 | Yes, with attribution |
+| FloatingObjects (ESA Φ-lab) | 26 Sentinel-2 scenes, 3,297 floating objects as noisy line labels ([arXiv 2307.02465](https://arxiv.org/pdf/2307.02465)); includes Manila and three Vietnam scenes | Google Drive | No license file ([GitHub](https://github.com/MarcCoru/floatingobjects)) | Unknown |
+| marinedebrisdetector combo | FloatingObjects + MARIDA + S2Ships, refined labels | GitHub | None named | Inherits weakest license |
+
+### Landfills and dumpsites
+
+| Dataset | What it is | Size and host | License | Commercial use |
+|---|---|---|---|---|
+| AerialWaste v3 | 11,700+ aerial and satellite images, binary plus multi-label plus masks | 18.8 GB, Zenodo ([Zenodo 12607190](https://zenodo.org/records/12607190)) | CC BY-NC-ND 4.0, plus Google Earth terms | No, and no modified redistribution |
+| Sun et al. 2023 global dumpsites | About 2,500 dumpsites in 2,219 tiles at 0.3 to 1 m, including Fujian | Science Data Bank, URL not given | "Academic use only, commercial use prohibited" ([Nature Comms](https://www.nature.com/articles/s41467-023-37136-1.pdf)) | No |
+
+One structural point matters more than any single license. The underlying Sentinel-2 and Landsat imagery is free and open, so **the NC restrictions attach to the labels and curation, not the pixels**. A team that re-labels raw imagery itself sidesteps the restriction, which is exactly why Taiwan government location lists become valuable later in this report.
+
+Geography is the other gap. MARIDA's Chinese and Philippine scenes and FloatingObjects' Manila and Vietnam scenes are the closest analogues to Taiwan's typhoon-driven river plumes, and the Sun et al. dumpsites include Fujian across the strait ([Nature Comms](https://www.nature.com/articles/s41467-023-37136-1.pdf)), but none contains Taiwan. MADOS's 47 tiles were not checked for Taiwan Strait coverage.
+
+## Cleaner-licensed spectral libraries exist outside the model papers
+
+For a product that identifies plastics, polymers or minerals by spectrum, several libraries outside the reviewed benchmarks have better license terms. Coverage of plastics is far better than coverage of anything Taiwan-specific.
+
+| Library | Content | Size | License | Commercial fit |
+|---|---|---|---|---|
+| Open Specy | Raman and FTIR reference library pulled from OSF, R package with matching ([README](https://brieger.esalq.usp.br/CRAN/web/packages/OpenSpecy/readme/README.html)) | Not stated | CC BY 4.0 badge, unclear if it covers the library | Likely yes, confirm scope |
+| RamanBench (HF mirror) | 87 datasets, 457,832 rows, 3.69 GB Parquet ([HF](https://huggingface.co/datasets/HTW-KI-Werkstatt/RamanBench)) | arXiv abstract says 74 datasets, 325,668 spectra ([arXiv](https://arxiv.org/abs/2605.02003)); counts disagree | Mirror CC BY 4.0, but each source keeps its own license | Filter to CC BY/CC0 sources |
+| USGS Spectral Library v7 | Minerals, plants, chemicals, man-made materials, 0.2 to 200 µm | 5.1 GB ([ScienceBase](https://www.sciencebase.gov/catalog/item/5807a2a2e4b0841e59e3a18d)) | Use constraints blank; US federal work, public domain by policy | Yes (inferred) |
+| Tasseron et al. 2021 | Hyperspectral floating plastics | Not stated | CC BY 4.0 ([4TU](https://data.4tu.nl/datasets/3c284d5d-216e-401b-9e9a-85591417a9d0)) | Yes |
+| Garaba & Dierssen 2020 | UV to SWIR (350 to 2500 nm) of marine-harvested, washed-ashore and virgin plastics, hosted on EcoSIS ([ESSD](https://essd.copernicus.org/articles/12/77/2020/)) | 47 particles plus 11 virgin polymers | Article CC BY; dataset license not shown | Check EcoSIS |
+| SLoPP / SLoPP-E | Raman microplastics, 148 pristine and 113 aged spectra ([Plastic Action Centre](https://plasticactioncentre.ca/directory/slopp-and-slopp-e-raman-spectral-libraries-for-microplastics-research/)) | Single zip | Not stated (please-read PDF unread) | Unknown |
+| ECOSTRESS | 3,400+ spectra of natural and man-made materials ([speclib.jpl.nasa.gov](https://speclib.jpl.nasa.gov)) | Not stated | "© Caltech, all rights reserved", no open license | Ask JPL |
+| Dong et al. weathered MPs | 20 standard and 155 weathered Raman spectra, Shandong samples ([Mendeley](https://data.mendeley.com/datasets/kpygrf9fg6/2)) | Small | License field blank | Unknown |
+| Primpke et al. 2018 FTIR DB | Microplastic FTIR reference database ([RUC](https://forskning.ruc.dk/en/publications/reference-database-design-for-the-automated-analysis-of-microplas/)) | Not confirmed | Article CC BY; database terms unknown | Unknown |
+
+Taiwan has a regulatory hook but no library. MOENV's standard method **NIEA M907.00B** identifies microbeads in cosmetics with ATR-FTIR (550 to 4000 cm⁻¹) confirmed by Raman, against just six polymers (PE, PP, PET, PMMA, nylon, PLA) at ≥80% match, and it tells labs to build their own reference library rather than publishing one ([Executive Yuan Gazette](https://gazette.nat.gov.tw/EG_FileManager/eguploadpub/eg023216/ch07/type1/gov60/num22/images/Eg01.pdf)). A repeal and replacement were pre-announced, and a water microplastics method (M909.00C) appears to be pyrolysis-based, though neither page could be opened. Taiwan microplastic field studies (northern beaches, seafood) exist, but searches of Zenodo, Figshare and Mendeley found **no Taiwan-affiliated open spectra**. The data lives in papers and theses.
+
+## Taiwan publishes label lists, not labelled imagery
+
+This is the most useful finding for a Taiwan team. Government portals hold dozens of geocoded or county-level records that can serve as weak labels, hotspot priors or validation, all under the **Open Government Data License v1 (政府資料開放授權條款)**, free of charge. Metadata below was confirmed through data.gov.tw's English mirror or NCHC SciDM unless flagged.
+
+| Dataset (ID) | Provider | Key fields | Use for detection | Status |
+|---|---|---|---|---|
+| Listed waste disposal sites 列管廢棄物棄置場址 (145968) | MOENV | Case no., address, cadastre, **Lon/Lat**, waste kind, listing date, cleanup status, monthly updates ([data.gov.tw](https://data.gov.tw/en/datasets/145968)) | Positive labels for illegal-dump detectors; status allows "cleared vs present" time series | Verified (metadata last stamped 2024-10) |
+| Taoyuan sanitary landfills (76762) | Taoyuan | Name, capacity, remaining volume, **Lat/Lon** ([data.gov.tw](https://data.gov.tw/en/datasets/76762)) | Legal-waste positives or hard negatives | Verified |
+| Tainan illegal disposal sites (173490) | Tainan | Site no., district, location name, no coordinates ([data.gov.tw](https://data.gov.tw/en/datasets/173490)) | Needs geocoding | Verified |
+| Soil and groundwater contaminated sites (8817, 6351, 35094) | MOENV | Site map, names and addresses, counts and areas ([SciDM](https://scidm.nchc.org.tw/en/dataset/best_wish8817)) | Industrial-site positives and negatives | Listed, but mirrors show "no data"; live access via data.moenv.gov.tw unverified |
+| Marine waste cleaning statistics (172912) | OCA | County, location, tonnage by source and by category (PET, cans, fishing nets, polystyrene...) ([data.gov.tw](https://data.gov.tw/en/datasets/172912)) | County-level hotspot priors, class-mix validation | Verified |
+| Seabed debris trawl survey 2021 (172481) | OCA | Lat/Lon, type, weight, count ([data.gov.tw](https://data.gov.tw/en/datasets/172481)) | Context only (seabed, not visible from orbit) | Verified |
+| Floating debris and microplastics monitoring (175841) | OCA | Survey fields and report ([data.gov.tw](https://data.gov.tw/en/datasets/175841)) | Offshore hotspot validation | Verified, no download link seen |
+| Tainan beach cleanup results (137782) | Tainan (from MOENV adoption system) | API with Swagger ([data.gov.tw](https://data.gov.tw/en/datasets/137782)) | Local validation | Verified, fields empty on page |
+| NMHC hourly values (34829) | MOENV | Hourly NMHC, daily update ([SciDM mirror](https://scidm.nchc.org.tw/ja/rating/dataset/best_wish34829/4)) | Ground-truth near industrial sites | Verified listing; CH4 field and station count unconfirmed |
+| National GHG Inventory Report (16024) | CCA | Sector emissions ([data.gov.tw](https://data.gov.tw/dataset/16024)) | Context | Unverified (blocked) |
+
+Three caveats shape how these lists can be used. Coordinates in 145968 are likely cadastral centroids, so expect positional error of tens of metres. The list is biased toward large, known industrial dumps, and a 2021 PTS report citing MOENV found 870 historical sites with 323 still supervised, while reporters said listed sites are only a fraction of the real total, especially on farmland and fish ponds ([PTS](https://news.pts.org.tw/article/519007)). And none of the marine data is imagery.
+
+Taiwan's labelled imagery is thin. **HAIDA** from NTOU is the only public Taiwan aerial litter dataset found: **1,319 drone images plus 456 negatives, 6,421 boxes in two classes (2,517 bottle, 3,904 garbage)**, flown at 3 to 30 m along the Keelung and Gongliao coast with about 0.7 cm/px at 10 m ([MDPI Aerospace](https://mdpi.com/2226-4310/10/1/84)). The repo is MIT-licensed, but the LICENSE file is inherited from the keras-yolo3 fork and names that author, and the images sit on personal Google Drive links ([raw LICENSE](https://raw.githubusercontent.com/LiaoSteve/HAIDA-Trash-Dataset-High-Resolution-Aerial-image/master/LICENSE)). Treat it as permissive but ambiguous until the authors confirm. Its centimetre-scale resolution also means it will not transfer to orthophotos or satellites without domain adaptation.
+
+Other Taiwan work does not release data. NCU's Taoyuan drone bottle study ([MDPI Drones](https://www.mdpi.com/2504-446X/6/12/401)), NCKU's 2024 YOLO debris thesis, and Tamkang's CCTV littering detector all report no public dataset. Government illegal-dumping enforcement is moving toward IoT and CCTV, not imagery: MOENV's NT$2.35B 2026 to 2029 plan funds 500 IoT monitoring sites in its first year ([優分析](https://uanalyze.com.tw/articles/4746544570)), and the June 2026 Waste Disposal Act amendments add electronic fences and CCTV ([工商時報](https://www.ctee.com.tw/news/20260617700105-430104)). **No Taiwanese satellite or drone illegal-landfill detection paper was found**, so a product here would be locally novel.
+
+Citizen-science beach data is the best ground truth for class mix. SOW's ICC records span 541 cleanups from 2004 to 2016, 904,302 items and 63.6% plastic ([AGRIS](https://agris.fao.org/search/ar/records/65dfd095b766d82b18033432)), and its 121-station coastal survey (2018) and 14-station re-survey (2022) identified Ruifang, Mailiao, Guanyin, Tongxiao and Manzhou as the dirtiest segments ([SOW PDF](https://www.sow.org.tw/sites/sow/files/xin_wen_gao__huang_ye_qi_dong_hai_fei_fu_cha__jian_shi_tai_wan_hai_fei__fa_xian_bu_fen_re_dian_bu_jian_fan_zeng_.pdf)). That station data is available only on request. The National Ocean Database (NODASS) has an open tier under the OGDL and a controlled tier that **bans commercial use** ([release rules](https://www.klsh.kl.edu.tw/wp-content/uploads/sites/36/2023/05/國家海洋資料庫資料釋出作業要點.pdf)), and no debris layer was found in it.
+
+## Free global imagery beats Taiwan's paid layers for training
+
+Imagery licensing is where Taiwan teams most often get caught. The national orthophoto layer looks free in a browser but is not open data.
+
+| Source | Resolution and bands | Access and cost | ML training fit |
+|---|---|---|---|
+| NLSC orthophoto WMTS (PHOTO2) | Aerial, GSD often cited as about 25 cm (unverified) | Viewable free, but **not open data**; OSM ruled it license-incompatible ([iD #10195](https://github.com/openstreetmap/iD/issues/10195)) | Do not scrape |
+| Orthophoto files (航測及遙測分署 / NLSC) | Per 1:5,000 sheet | **NT$1,200 per sheet, or NT$3,600 value-added**; no academic discount for aerial photos ([MOI fee standard 2025](https://www.hlgs.hlc.edu.tw/wp-content/uploads/sites/74/2025/08/修正「國土測繪成果資料收費標準」.pdf)) | Buy value-added tier for commercial models |
+| FORMOSAT-2 / FORMOSAT-5 archive | VNIR multispectral | Sold via the branch's ATIS platform since 2022, prices not public ([INSIDE](https://www.inside.com.tw/article/26219-buy-formosa-satellite-image)) | Landfills, beach accumulations; FS-5 is past design life ([WMO OSCAR](https://space.oscar.wmo.int/satellites/view/formosat_5)) |
+| FORMOSAT-8 constellation | 1 m pan, 2 m MS (4+ bands), FS-8A about 0.7 m processed ([Focus Taiwan](https://focustaiwan.tw/sci-tech/202602110009)) | Formal ops expected July 2026, 8 satellites by 2031, last targeting 30 cm ([PTS](https://news.pts.org.tw/article/808282)); outside access terms not found | Strong for landfills later; no SWIR, so useless for methane |
+| Sentinel-2 / Landsat / Sentinel-1 | 10 to 30 m optical, SAR | Free and open | Default baseline; SAR helps with Taiwan's cloud cover |
+| PlanetScope (E&R Basic) | 3 to 5 m, near daily | Free for non-commercial research, 30-day withhold ([Planet](https://support.planet.com/hc/en-us/articles/360016148597)) | Prototyping only; commercial license needed |
+| EMIT L2B methane | 60 m enhancement and plume complexes, covers all of Taiwan | Free, "openly shared, without restriction" ([Earthdata](https://www.earthdata.nasa.gov/data/catalog/lpcloud-emitl2bch4enh-003)) | Best free methane source |
+| Carbon Mapper (Tanager-1) | Public plume portal; 5,392 methane plumes in its first year ([Carbon Mapper](https://carbonmapper.org/articles/tanager-1-one-year-in-space)) | Free portal; license unverified | Check terms, then query Taiwan bbox |
+| Own drone imagery | cm-scale | Registration for ≥250 g, CAA operator certificate and insurance for companies, 400 ft cap, VLOS, no night flights; fines up to NT$1.5M ([Civil Aviation Act excerpt](https://dhps.kl.edu.tw/news/file/219/%E6%B0%91%E7%94%A8%E8%88%AA%E7%A9%BA%E6%B3%95%E6%A2%9D%E6%96%87%E9%81%99%E6%8E%A7%E7%84%A1%E4%BA%BA%E6%A9%9F%E5%B0%88%E7%AB%A0%E9%83%A8%E5%88%86.pdf)) | Best for beaches; plan around coastal military and airport zones |
+
+For land-use masks, the open land-use survey data is township-level statistics in CSV, not polygons ([SciDM](https://scidm.nchc.org.tw/en/dataset/best_wish104824/resource/edfbfe7e-7429-4a02-963e-ebb61d2a7272)). Polygon maps are paid. OSM or a global land-cover product is the cheaper route to water and land masks.
+
+## Taiwan's methane is diffuse, so detection targets are few
+
+The methane module faces a target problem before it faces a data problem. EPA figures cited in 2022 put **methane at 1.67% of Taiwan's GHG emissions**, with 2019 methane at half of 2005's. Landfills produced at least 85% of methane in the late 1990s but have fallen to a negligible level, rice paddies now produce more than a quarter, pig manure is another major source, and Taiwan has no significant fossil-fuel extraction ([Taipei Times](https://www.taipeitimes.com/News/feat/archives/2022/01/26/2003772081)). The 2026 inventory (covering 2024) reports net emissions of 251.404 Mt CO2e ([Focus Taiwan](https://focustaiwan.tw/society/202606030011)) and a **72.47% drop in the waste sector since 2005** ([經濟日報](https://money.udn.com/money/story/7307/9542944)). No opened source gave the 2024 methane or landfill figure.
+
+Searches found **no public satellite methane plume over Taiwan** from Carbon Mapper, IMEO MARS, EMIT, GHGSat or Kayrros, and the bounding-box query could not be run. That is absence of evidence, not evidence of absence. The most plausible point sources are LNG terminals (Yong'an, Taichung), petrochemical complexes (Mailiao, Linyuan) and large legacy landfills, but this is reasoning, not a finding. The one Taiwan-specific methane observation study, a 2023 NCU thesis using GOSAT, TROPOMI and ground stations, found industrial areas show larger day-night swings and mixed local and regional sources, without naming any facility ([NCU IR](https://ir.lib.ncu.edu.tw/bitstream/987654321/92086/1/index.html)).
+
+Ground stations are the realistic Taiwan data source. Selected MOENV air quality stations measure total hydrocarbons by FID, with NMHC computed as THC minus methane ([NCU thesis](https://ir.lib.ncu.edu.tw/ir/bitstream/987654321/89119/1/index.html)), so those stations do produce a methane value. A separate PAMS network sums 56 speciated hydrocarbons and has picked up petrochemical signatures at industrial sites ([NCU Scholars](https://scholars.ncu.edu.tw/zh/publications/network-monitoring-of-speciated-vs-total-non-methane-hydrocarbon-/)). Whether methane appears as its own API field, and at how many stations, is unconfirmed. Civil IoT Taiwan showed no methane sensors.
+
+## What a Taiwan team should use, license or build
+
+| Module | Train on (commercial-safe) | Prototype only (NC or unclear) | Taiwan labels and validation | Build yourself |
+|---|---|---|---|---|
+| Raman/IR material ID | USGS v7, Open Specy (after confirming scope), Tasseron, CC BY/CC0 subsets of RamanBench, API set (after confirming license) | RRUFF, MLROD, Bacteria-ID, SLoPP, ECOSTRESS, KnowItAll trial | NIEA M907.00B's six polymers as a minimum spec | A Taiwan reference library on your own instrument, including weathered beach plastics; ask NSYSU, NTU, NCU authors for published spectra |
+| Methane plumes | EMIT L2B products and raw radiance; re-label free Sentinel-2/Landsat yourself | STARCOP, MARS-S2L, MHS for architecture benchmarking | MOENV THC/CH4/NMHC hourly data near Mailiao, Linyuan, LNG terminals; CCA inventory | Controlled-release or ground-survey truth at a few Taiwan sites; scope as monitoring, not a detector trained on Taiwan plumes |
+| Marine debris (satellite) | MARIDA, MADOS | FloatingObjects, marinedebrisdetector refinements | OCA 172912 county tonnage, 175841 survey, SOW station data on request | Taiwan validation scenes on Sentinel-2 around the northeast coast, Mailiao, Guanyin |
+| Beach litter (drone) | HAIDA only after written confirmation from NTOU | Public-domain Roboflow sets (check provenance) | SOW/ICC class distributions | Your own flights under CAA rules; this is the biggest data asset you can own |
+| Illegal landfills | Re-labelled Sentinel-2/Sentinel-1, purchased orthophotos at value-added tier, later FORMOSAT-8 | AerialWaste, Sun et al. dumpsites | MOENV 145968 coordinates and status, landfill lists, contaminated-site lists | Clean polygon labels for a few hundred 145968 sites; negatives from legal landfills and farmland |
+
+Two actions are worth doing in week one. First, send license queries to the owners of STARCOP, AerialWaste, RRUFF, HAIDA and Bacteria-ID, because a commercial grant from any of them changes the plan. Second, run the free checks this research could not: filter `NASA/EMIT/L2B/CH4PLM` in Earth Engine and the Carbon Mapper portal for the Taiwan box (lon 119.3 to 122.1, lat 21.8 to 25.4), and pull 145968 and the NMHC dataset through the MOENV API with a key.
+
+## Unverified items and open gaps
+
+| Item | What is unknown | How to resolve |
+|---|---|---|
+| Bacteria-ID, API, MHS, FloatingObjects, MLROD data | License | Check repos or email authors |
+| HAIDA | Whether MIT covers images; annotation format; HAIDA2 size | Email J. G. Juang, NTOU |
+| SLoPP, FLOPP, Primpke DB, Open Specy library, Garaba (EcoSIS) | License scope and sizes | Read please-read PDF, OSF and EcoSIS pages |
+| RRUFF.net | New terms of use | Read once site is reachable |
+| RamanBench | 74 vs 87 dataset count discrepancy | Compare paper and HF card |
+| MOENV CH4/THC | Field names, station list | Query data.moenv.gov.tw API |
+| Contaminated-site and enforcement datasets (8817, 89016-89018 etc.) | Current API, coordinates | Open data.moenv.gov.tw manually |
+| 2026 GHG inventory | 2024 CH4 and landfill CH4 values | CCA PDF or dataset 16024 |
+| Satellite plumes over Taiwan | Any detections | EMIT and Carbon Mapper bbox query |
+| Carbon Mapper portal | Data license | Read portal terms |
+| FORMOSAT-8 | Whether and how outsiders can buy imagery | Contact TASA or ATIS |
+| Orthophotos | Official GSD and update cycle; data.gov.tw 139248 and 17220 terms | NLSC usage rules |
+| MADOS tiles | Whether any cover Taiwan waters | Inspect scene shapefiles |
+| Coastline vectors, land-use polygons | Open dataset IDs and licenses | Manual data.gov.tw search |
+| SOW cleanocean portal, Ocean Conservancy TIDES | Whether live, whether Taiwan records exist | Open manually |
+| Taiwan case law on NC licenses and ML training | No source consulted | Legal review |
+
+The OGDL v1 is believed to be compatible with CC BY 4.0, but that comes from background knowledge and was not confirmed against the license text.
+
+## Conclusion
+
+The bottleneck for a Taiwan detection product is not model architecture or even data volume. It is **label ownership**. The global benchmarks taught the field how to detect plumes, debris and dumps, but most of them cannot ship, and none of them sees Taiwan. Meanwhile Taiwan's government has already done the expensive part of ground truthing, recording where dumps, landfills, contaminated sites and beach litter actually are, and released it under an open license. Pairing those coordinates with free Sentinel imagery, then adding a modest amount of owned drone imagery and in-house spectra, produces a training set that is both commercially clean and locally accurate, which no public dataset offers.
+
+The modules also deserve different ambitions. Illegal-landfill detection is the strongest opportunity: good labels exist, enforcement policy is moving toward technology, and no local competitor was found. Marine debris is viable on MARIDA and MADOS with Taiwan validation. Spectral material ID needs a self-built Taiwan library and is a lab-workflow product more than a data product. Methane should be framed as monitoring with ground stations and free satellite plume products, because Taiwan's emission profile offers few large plumes to train on or find.

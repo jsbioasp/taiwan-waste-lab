@@ -1,0 +1,412 @@
+{
+  "url_public_html": "https://data.4tu.nl/articles/dataset/Hyperspectral_reflectance_of_marine_plastics_in_the_VIS_to_SWIR/12896312/2",
+  "files": [
+    {
+      "id": 24530159,
+      "name": "HYPER_mean.txt",
+      "size": 2472409,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/24530159",
+      "supplied_md5": "3274c24c7b7b6357f827be2ebf46e62e",
+      "computed_md5": "3274c24c7b7b6357f827be2ebf46e62e",
+      "mimetype": "text/plain"
+    },
+    {
+      "id": 24530162,
+      "name": "HYPER_stdev.txt",
+      "size": 2382223,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/24530162",
+      "supplied_md5": "10faef9b03390bbf9c3bc5d6bac602ca",
+      "computed_md5": "10faef9b03390bbf9c3bc5d6bac602ca",
+      "mimetype": "text/plain"
+    },
+    {
+      "id": 24603851,
+      "name": "README.txt",
+      "size": 2071,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/24603851",
+      "supplied_md5": "9b9a873a297b55ee91cf5fe5f55e35d0",
+      "computed_md5": "9b9a873a297b55ee91cf5fe5f55e35d0",
+      "mimetype": "text/plain"
+    }
+  ],
+  "folder_structure": {},
+  "authors": [
+    {
+      "id": 9208007,
+      "full_name": "Els Knaeps",
+      "first_name": "Els",
+      "last_name": "Knaeps",
+      "is_active": false,
+      "url_name": "_",
+      "orcid_id": "0000-0002-0557-6151"
+    },
+    {
+      "id": 9352133,
+      "full_name": "Gert Strackx",
+      "first_name": "Gert",
+      "last_name": "Strackx",
+      "is_active": false,
+      "url_name": "_",
+      "orcid_id": ""
+    },
+    {
+      "id": 9352130,
+      "full_name": "Dieter Meire",
+      "first_name": "Dieter",
+      "last_name": "Meire",
+      "is_active": false,
+      "url_name": "_",
+      "orcid_id": ""
+    },
+    {
+      "id": 8022185,
+      "full_name": "Sindy Sterckx",
+      "first_name": "Sindy",
+      "last_name": "Sterckx",
+      "is_active": false,
+      "url_name": "_",
+      "orcid_id": ""
+    },
+    {
+      "id": 9352131,
+      "full_name": "Johan Mijnendonckx",
+      "first_name": "Johan",
+      "last_name": "Mijnendonckx",
+      "is_active": false,
+      "url_name": "_",
+      "orcid_id": ""
+    },
+    {
+      "id": 9355660,
+      "full_name": "Mehrdad Moshtaghi",
+      "first_name": "Mehrdad",
+      "last_name": "Moshtaghi",
+      "is_active": false,
+      "url_name": "_",
+      "orcid_id": ""
+    }
+  ],
+  "custom_fields": [
+    {
+      "name": "Publisher",
+      "value": "4TU.ResearchData",
+      "settings": {
+        "validations": {
+          "min_length": 1,
+          "max_length": 250
+        },
+        "default_value": "4TU.ResearchData"
+      },
+      "field_type": "text",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Language",
+      "value": "",
+      "settings": {
+        "options": [
+          "af",
+          "ar",
+          "ast",
+          "az",
+          "bg",
+          "be",
+          "bn",
+          "br",
+          "bs",
+          "ca",
+          "cs",
+          "cy",
+          "da",
+          "de",
+          "dsb",
+          "el",
+          "en",
+          "en-au",
+          "en-gb",
+          "en-us",
+          "eo",
+          "es",
+          "es-ar",
+          "es-co",
+          "es-mx",
+          "es-ni",
+          "es-ve",
+          "et",
+          "eu",
+          "fa",
+          "fi",
+          "fr",
+          "fy",
+          "ga",
+          "gd",
+          "gl",
+          "he",
+          "hi",
+          "hr",
+          "hsb",
+          "hu",
+          "ia",
+          "id",
+          "io",
+          "is",
+          "it",
+          "ja",
+          "ka",
+          "kk",
+          "km",
+          "kn",
+          "ko",
+          "lb",
+          "lt",
+          "lv",
+          "mk",
+          "ml",
+          "mn",
+          "mr",
+          "my",
+          "nb",
+          "ne",
+          "nl",
+          "nn",
+          "os",
+          "pa",
+          "pl",
+          "pt",
+          "pt-br",
+          "ro",
+          "ru",
+          "sk",
+          "sl",
+          "sq",
+          "sr",
+          "sr-latn",
+          "sv",
+          "sw",
+          "ta",
+          "te",
+          "th",
+          "tr",
+          "tt",
+          "udm",
+          "uk",
+          "ur",
+          "vi",
+          "zh-hans",
+          "zh-hant"
+        ],
+        "placeholder": "Choose if not English",
+        "is_multiple": false
+      },
+      "field_type": "dropdown",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Time coverage",
+      "value": "2019",
+      "settings": {
+        "validations": {
+          "min_length": 1,
+          "max_length": 1000
+        },
+        "placeholder": "Time coverage"
+      },
+      "field_type": "textarea",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Geolocation",
+      "value": "",
+      "settings": {
+        "validations": {
+          "min_length": 1,
+          "max_length": 250
+        },
+        "placeholder": "Geolocation"
+      },
+      "field_type": "text",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Geolocation Longitude",
+      "value": "",
+      "settings": {
+        "validations": {
+          "min_length": 1,
+          "max_length": 250
+        },
+        "placeholder": "0.0"
+      },
+      "field_type": "text",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Geolocation Latitude",
+      "value": "",
+      "settings": {
+        "validations": {
+          "min_length": 1,
+          "max_length": 250
+        },
+        "placeholder": "0.0"
+      },
+      "field_type": "text",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Format",
+      "value": "",
+      "settings": {
+        "validations": {
+          "min_length": 3,
+          "max_length": 1000
+        },
+        "placeholder": "Format"
+      },
+      "field_type": "textarea",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Data Link",
+      "value": [],
+      "settings": {
+        "placeholder": "Data Link",
+        "is_multiple": false
+      },
+      "field_type": "url",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Derived From",
+      "value": [],
+      "settings": {
+        "placeholder": "Derived From",
+        "is_multiple": false
+      },
+      "field_type": "url",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Same As",
+      "value": [],
+      "settings": {
+        "placeholder": "Same As",
+        "is_multiple": false
+      },
+      "field_type": "url",
+      "order": null,
+      "is_mandatory": false
+    },
+    {
+      "name": "Organizations",
+      "value": "VITO nv\nFlanders Hydraulics Research",
+      "settings": {
+        "validations": {
+          "min_length": 2,
+          "max_length": 1500
+        },
+        "placeholder": "Delft University of Technology"
+      },
+      "field_type": "textarea",
+      "order": null,
+      "is_mandatory": false
+    }
+  ],
+  "figshare_url": "https://data.4tu.nl/articles/dataset/Hyperspectral_reflectance_of_marine_plastics_in_the_VIS_to_SWIR/12896312",
+  "download_disabled": false,
+  "description": "This dataset contains\n47 hyperspectral reflectance measurements of plastic litter samples. The\nplastic litter samples include virgin and real samples from the Port of\nAntwerp. They were measured in dry conditions in the VITO calibration facility\nand a selection of the samples was also measured in wet conditions and\nsubmerged in a watertank at Flanders Hydraulics.",
+  "funding": "This project has received funding from the ATTRACT project funded by the EC under Grant Agreement 777222",
+  "funding_list": [
+    {
+      "id": 19036547,
+      "title": "This project has received funding from the ATTRACT project funded by the EC under Grant Agreement 777222",
+      "grant_code": "",
+      "funder_name": null,
+      "is_user_defined": 1
+    }
+  ],
+  "version": 2,
+  "status": "public",
+  "size": 4856703,
+  "created_date": "2020-09-09T08:58:15Z",
+  "modified_date": "2020-09-09T08:58:18Z",
+  "is_public": true,
+  "is_confidential": false,
+  "is_metadata_record": false,
+  "confidential_reason": "",
+  "metadata_reason": "",
+  "license": {
+    "value": 2,
+    "name": "CC0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "tags": [
+    "Hyper project",
+    "Total Suspended Matter",
+    "plastic debris",
+    "marine environment",
+    "remote sensing data",
+    "Pollution",
+    "Ecological Applications"
+  ],
+  "keywords": [
+    "Hyper project",
+    "Total Suspended Matter",
+    "plastic debris",
+    "marine environment",
+    "remote sensing data",
+    "Pollution",
+    "Ecological Applications"
+  ],
+  "categories": [
+    {
+      "id": 37662,
+      "title": "Ecological Applications",
+      "parent_id": 37659,
+      "path": "/37659/37662",
+      "source_id": "",
+      "taxonomy_id": 110
+    }
+  ],
+  "references": [],
+  "has_linked_file": false,
+  "citation": "Knaeps, Els; Strackx, Gert; Meire, Dieter; Sterckx, Sindy; Mijnendonckx, Johan; Moshtaghi, Mehrdad (2020). Hyperspectral reflectance of marine plastics in the VIS to SWIR. 4TU.ResearchData. Dataset. https://doi.org/10.4121/12896312.v2",
+  "related_materials": [],
+  "is_embargoed": false,
+  "embargo_date": null,
+  "embargo_type": "file",
+  "embargo_title": "",
+  "embargo_reason": "",
+  "embargo_options": [],
+  "id": 12896312,
+  "title": "Hyperspectral reflectance of marine plastics in the VIS to SWIR",
+  "doi": "10.4121/12896312.v2",
+  "handle": "",
+  "url": "https://api.figshare.com/v2/articles/12896312",
+  "published_date": "2020-09-09T08:58:15Z",
+  "thumb": "",
+  "defined_type": 3,
+  "defined_type_name": "dataset",
+  "group_id": 28598,
+  "url_private_api": "https://api.figshare.com/v2/account/articles/12896312",
+  "url_public_api": "https://api.figshare.com/v2/articles/12896312",
+  "url_private_html": "https://figshare.com/account/articles/12896312",
+  "timeline": {
+    "posted": "2020-09-09T08:58:15",
+    "firstOnline": "2020-09-08"
+  },
+  "resource_title": null,
+  "resource_doi": null
+}

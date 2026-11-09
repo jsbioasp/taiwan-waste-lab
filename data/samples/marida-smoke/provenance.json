@@ -1,0 +1,51 @@
+{
+  "source": "https://zenodo.org/records/5151941",
+  "attribution": "Kikaki et al. (2022), MARIDA, DOI 10.1371/journal.pone.0262247",
+  "license": "CC-BY-4.0",
+  "changes": "Original float32 bands unchanged; source classes 0..15 mapped to -1..14; invalid pixels ignored; NPZ packaging",
+  "subset_warning": "Limited first patches per official split are for software checks, not representative benchmark results",
+  "samples": [
+    {
+      "file": "S2_1-12-19_48MYU_0.npz",
+      "source_image": "patches/S2_1-12-19_48MYU/S2_1-12-19_48MYU_0.tif",
+      "source_mask": "patches/S2_1-12-19_48MYU/S2_1-12-19_48MYU_0_cl.tif",
+      "image_sha256": "fe070ac95da1483be50c7cfd7ecdaf2b4c584043c097e17fe8d07d7b5a2bc206",
+      "mask_sha256": "71eff29e018b74d2710eca9d8ac5145a14586035752520c4810779853d25318c"
+    },
+    {
+      "file": "S2_1-12-19_48MYU_1.npz",
+      "source_image": "patches/S2_1-12-19_48MYU/S2_1-12-19_48MYU_1.tif",
+      "source_mask": "patches/S2_1-12-19_48MYU/S2_1-12-19_48MYU_1_cl.tif",
+      "image_sha256": "eeab323675af1ea3654fb00f4330694db1b35443be83dc93ea9ffefa6675911e",
+      "mask_sha256": "6e6def66303e97d10851cd0d53257606604d77dddcad5c4a663e7d61d8a5d991"
+    },
+    {
+      "file": "S2_11-6-18_16PCC_0.npz",
+      "source_image": "patches/S2_11-6-18_16PCC/S2_11-6-18_16PCC_0.tif",
+      "source_mask": "patches/S2_11-6-18_16PCC/S2_11-6-18_16PCC_0_cl.tif",
+      "image_sha256": "ec4fb9cc1fc7da3ecfc3113ba41d6003ab75ca2c1a99736b17c364aaadd229f6",
+      "mask_sha256": "6749ed4c7f3bf47431d6a243bd97a04b8fcdd725ed80d4f22101470e02285b58"
+    },
+    {
+      "file": "S2_11-6-18_16PCC_1.npz",
+      "source_image": "patches/S2_11-6-18_16PCC/S2_11-6-18_16PCC_1.tif",
+      "source_mask": "patches/S2_11-6-18_16PCC/S2_11-6-18_16PCC_1_cl.tif",
+      "image_sha256": "bedab14973cee0a39785b13fec6385f977d74943ebbe7e2f6676a421a32fd6bf",
+      "mask_sha256": "1a00d02408bf745e15eaf5851a7693314b9577c0571b51a1c28705173c3cad1c"
+    },
+    {
+      "file": "S2_12-12-20_16PCC_0.npz",
+      "source_image": "patches/S2_12-12-20_16PCC/S2_12-12-20_16PCC_0.tif",
+      "source_mask": "patches/S2_12-12-20_16PCC/S2_12-12-20_16PCC_0_cl.tif",
+      "image_sha256": "277183737ec5da59d2b0b367923a70a872a9ab6d3bfa49af8d928bd8a96b4ff6",
+      "mask_sha256": "df8cb1c2ca3225c06aea3c95620168886f5035fbf53cdec012e94672c9337eef"
+    },
+    {
+      "file": "S2_12-12-20_16PCC_1.npz",
+      "source_image": "patches/S2_12-12-20_16PCC/S2_12-12-20_16PCC_1.tif",
+      "source_mask": "patches/S2_12-12-20_16PCC/S2_12-12-20_16PCC_1_cl.tif",
+      "image_sha256": "7cbe38d71257f30a25feb670531282c33ad82fba027e8bf658952506e3466763",
+      "mask_sha256": "b9325aca560437a699c8a98415da04c403eb7ab0707cde14644a00e963b30771"
+    }
+  ]
+}

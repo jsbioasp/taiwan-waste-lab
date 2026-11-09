@@ -1,0 +1,129 @@
+{
+  "created": "2024-02-16T13:18:38.140064+00:00",
+  "modified": "2024-02-16T16:10:52.519078+00:00",
+  "id": 10664073,
+  "conceptrecid": "10664072",
+  "doi": "10.5281/zenodo.10664073",
+  "conceptdoi": "10.5281/zenodo.10664072",
+  "doi_url": "https://doi.org/10.5281/zenodo.10664073",
+  "metadata": {
+    "title": "MADOS - Marine Debris and Oil Spill",
+    "doi": "10.5281/zenodo.10664073",
+    "publication_date": "2024-02-16",
+    "description": "<p>Marine Debris and Oil Spill (MADOS) is a marine pollution dataset based on Sentinel-2 remote sensing data, focusing on marine litter and oil spills. Other sea surface features that coexist with or have been suggested to be spectrally similar to them have also been considered. MADOS formulates a challenging<em> </em>semantic segmentation<em> </em>task using sparse annotations.</p>\n<p><strong>Citation:&nbsp;</strong>Kikaki K., Kakogeorgiou I., Hoteit I., Karantzalos K. Detecting Marine Pollutants and Sea Surface Features with Deep Learning in&nbsp;Sentinel-2 Imagery. ISPRS Journal of Photogrammetry and Remote Sensing, 2024.</p>\n<p>For the implementation code, pre-trained models and exploratory analysis visit our project page&nbsp;<a href=\"https://marine-pollution.github.io/\">https://marine-pollution.github.io/</a></p>\n<p>&nbsp;</p>\n<p><strong>MADOS Overview &amp; Structure</strong></p>\n<p>MADOS is structured in 174 scene folders, named&nbsp;<code>Scene_0</code> through <code>Scene_173</code>&nbsp;each corresponding to a unique Sentinel-2 (S2) scene.&nbsp;Each of these folders contains multiple image crops of the specific scene, indicated by the `_CROP` identifier. The total number of patch crops (240x240) is 2803.</p>\n<p>The next level of hierarchy seperates imagery by spatial resolution into three distinct folders:&nbsp;<code>10</code>, <code>20</code> and <code>60</code> denoting 10m, 20m, and 60m resolution data, respectively. This allows to keep each S2 band at the initial resolution, supporting a wide range of applications (e.g., pansharpening).</p>\n<p>The <code>10</code> folder contains crops of S2 10 m resolution bands (`492` nm, `560` nm, `665` nm, `833` nm) with Rayleigh corrected reflectance values along with the corresponding masks of pixel-level annotations (_cl), confidence levels (_conf) and reports (_rep). RGB images (_rgb) and water turbidity outputs extracted by ACOLITE (_TUR_Dogliotti, _TUR_Nechad2016) are also provided.</p>\n<p>The <code>20</code> and&nbsp;<code>60</code> folders follow a similar pattern, containing cropped images of S2 bands relevant to their respective resolutions. Note that for the 20m resolution, we also provide aggregated mask annotations (_cl), confidence levels (_conf) and reports (_rep).</p>\n<p>At the root folder of MADOS, there is a `splits` folder containing three text files: train_X.txt, val_X.txt, and test_X.txt. These files describe the division of the dataset into training, validation and testing sets, respectively, crucial for structuring machine learning experiments to evaluate model performance.</p>\n<p>&nbsp;</p>\n<p><strong>Folder structure</strong></p>\n<p>\u2514\u2500\u2500 MADOS</p>\n<p>&nbsp;&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 10</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_492_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_560_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_665_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_833_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_cl_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_conf_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rep_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rgb_CROP.png</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2W_TUR_Dogliotti_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2W_TUR_Nechad2016_665_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2514\u2500\u2500 ...</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 20</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_704_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_783_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_865_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_1614_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_2202_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_cl_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_conf_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rep_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2514\u2500\u2500 ...</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2514\u2500\u2500 60</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \u251c\u2500\u2500 Scene_0_L2R_rhorc_443_CROP.tif</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \u2514\u2500\u2500 ...</p>\n<p>&nbsp;&nbsp;&nbsp; \u251c\u2500\u2500 ...</p>\n<p>&nbsp;&nbsp;&nbsp; \u251c\u2500\u2500 Scene_173</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 10</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2514\u2500\u2500 ...</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u251c\u2500\u2500 20</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2514\u2500\u2500 ...</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp;&nbsp; \u2514\u2500\u2500 60</p>\n<p>&nbsp;&nbsp;&nbsp; \u2502&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \u2514\u2500\u2500 ...</p>\n<p>&nbsp;&nbsp;&nbsp; \u2514\u2500\u2500 splits</p>\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \u251c\u2500\u2500 test_X.txt</p>\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \u251c\u2500\u2500 train_X.txt</p>\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \u2514\u2500\u2500 val_X.txt</p>\n<p>&nbsp;</p>\n<p><strong>Mapping</strong></p>\n<p>The mapping between Digital Numbers and Classes in&nbsp;_cl&nbsp;files is:</p>\n<p>0.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Non-annotated</p>\n<p>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Marine Debris</p>\n<p>2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dense Sargassum</p>\n<p>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sparse Floating Algae</p>\n<p>4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Natural Organic Material</p>\n<p>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ship</p>\n<p>6.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Oil Spill</p>\n<p>7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Marine Water</p>\n<p>8.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sediment-Laden Water</p>\n<p>9.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Foam</p>\n<p>10.&nbsp; Turbid Water</p>\n<p>11.&nbsp; Shallow Water</p>\n<p>12.&nbsp; Waves &amp; Wakes</p>\n<p>13.&nbsp; Oil Platform</p>\n<p>14.&nbsp; Jellyfish</p>\n<p>15.&nbsp; Sea snot</p>\n<p>&nbsp;</p>\n<p>The mapping between Digital Numbers and Confidence level in&nbsp;_conf&nbsp;files is:</p>\n<p>1: High<br>2: Moderate<br>3: Low</p>\n<p>&nbsp;</p>\n<p>The mapping between Digital Numbers and marine debris Report existence in _rep&nbsp;files is:</p>\n<p>1: Very close<br>2: Away<br>3: No</p>\n<p>&nbsp;</p>\n<p>The final uncompressed dataset requires <strong>5.35</strong> GB of storage.</p>",
+    "access_right": "open",
+    "creators": [
+      {
+        "name": "Kikaki, Katerina",
+        "affiliation": "Hellenic Centre for Marine Research",
+        "orcid": "0000-0002-2618-3074"
+      },
+      {
+        "name": "Kakogeorgiou, Ioannis",
+        "affiliation": "National Technical University of Athens",
+        "orcid": "0000-0001-5200-2620"
+      },
+      {
+        "name": "Hoteit, Ibrahim",
+        "affiliation": "King Abdullah University of Science and Technology (KAUST)",
+        "orcid": "0000-0002-3751-4393"
+      },
+      {
+        "name": "Karantzalos, Konstantinos",
+        "affiliation": "National Technical University of Athens",
+        "orcid": "0000-0001-8730-6245"
+      }
+    ],
+    "custom": {
+      "code:codeRepository": "https://github.com/gkakogeorgiou/mados"
+    },
+    "resource_type": {
+      "title": "Dataset",
+      "type": "dataset"
+    },
+    "journal": {
+      "title": "ISPRS Journal of Photogrammetry and Remote Sensing"
+    },
+    "license": {
+      "id": "cc-by-4.0"
+    },
+    "relations": {
+      "version": [
+        {
+          "index": 0,
+          "is_last": true,
+          "parent": {
+            "pid_type": "recid",
+            "pid_value": "10664072"
+          }
+        }
+      ]
+    }
+  },
+  "title": "MADOS - Marine Debris and Oil Spill",
+  "links": {
+    "self": "https://zenodo.org/api/records/10664073",
+    "self_html": "https://zenodo.org/records/10664073",
+    "preview_html": "https://zenodo.org/records/10664073?preview=1",
+    "doi": "https://doi.org/10.5281/zenodo.10664073",
+    "self_doi": "https://doi.org/10.5281/zenodo.10664073",
+    "self_doi_html": "https://zenodo.org/doi/10.5281/zenodo.10664073",
+    "reserve_doi": "https://zenodo.org/api/records/10664073/draft/pids/doi",
+    "parent": "https://zenodo.org/api/records/10664072",
+    "parent_html": "https://zenodo.org/records/10664072",
+    "parent_doi": "https://doi.org/10.5281/zenodo.10664072",
+    "parent_doi_html": "https://zenodo.org/doi/10.5281/zenodo.10664072",
+    "self_iiif_manifest": "https://zenodo.org/api/iiif/record:10664073/manifest",
+    "self_iiif_sequence": "https://zenodo.org/api/iiif/record:10664073/sequence/default",
+    "files": "https://zenodo.org/api/records/10664073/files",
+    "media_files": "https://zenodo.org/api/records/10664073/media-files",
+    "latest": "https://zenodo.org/api/records/10664073/versions/latest",
+    "latest_html": "https://zenodo.org/records/10664073/latest",
+    "versions": "https://zenodo.org/api/records/10664073/versions",
+    "draft": "https://zenodo.org/api/records/10664073/draft",
+    "access_links": "https://zenodo.org/api/records/10664073/access/links",
+    "access_grants": "https://zenodo.org/api/records/10664073/access/grants",
+    "access_users": "https://zenodo.org/api/records/10664073/access/users",
+    "access_request": "https://zenodo.org/api/records/10664073/access/request",
+    "access": "https://zenodo.org/api/records/10664073/access",
+    "communities": "https://zenodo.org/api/records/10664073/communities",
+    "communities-suggestions": "https://zenodo.org/api/records/10664073/communities-suggestions",
+    "request_deletion": "https://zenodo.org/api/records/10664073/request-deletion",
+    "file_modification": "https://zenodo.org/api/records/10664073/file-modification",
+    "quota_increase": "https://zenodo.org/api/records/10664073/quota-increase",
+    "requests": "https://zenodo.org/api/records/10664073/requests"
+  },
+  "updated": "2024-02-16T16:10:52.519078+00:00",
+  "recid": "10664073",
+  "revision": 10,
+  "files": [
+    {
+      "id": "a8bcdbe7-e304-42c0-bf69-e0ffecfc8820",
+      "key": "MADOS.zip",
+      "size": 4038418740,
+      "checksum": "md5:1076b25d2797be3095d82a61105c7380",
+      "links": {
+        "self": "https://zenodo.org/api/records/10664073/files/MADOS.zip/content"
+      }
+    }
+  ],
+  "swh": {},
+  "owners": [
+    {
+      "id": "245895"
+    }
+  ],
+  "status": "published",
+  "stats": {
+    "downloads": 14262,
+    "unique_downloads": 3782,
+    "views": 9219,
+    "unique_views": 8007,
+    "version_downloads": 14262,
+    "version_unique_downloads": 3782,
+    "version_unique_views": 8007,
+    "version_views": 9219
+  },
+  "state": "done",
+  "submitted": true
+}

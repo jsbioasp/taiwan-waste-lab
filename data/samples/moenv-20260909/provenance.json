@@ -1,0 +1,13 @@
+{
+  "source": "https://data.gov.tw/en/datasets/145968",
+  "provider": "Taiwan Ministry of Environment",
+  "archive": "WDMS-WGS84-20260909.zip",
+  "sha256": "3a21d693ab4c3953f4fcda3509434927dca3b98ae1eb0cbdb547a5682b9f8516",
+  "license": "Open Government Data License v1.0",
+  "changes": "Converted WGS84 shapefile and Big5 attributes to UTF-8 GeoJSON; added blank manual image-review fields",
+  "records": 491,
+  "encoding": "Big5",
+  "records_with_decoding_replacements": 20,
+  "text_warning": "Some fixed-width source DBF fields truncate a Big5 character; replacement characters are explicitly flagged per feature; original ZIP preserves all source bytes",
+  "warning": "Listed sites are not verified visible-waste image labels"
+}

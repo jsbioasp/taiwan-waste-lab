@@ -1,0 +1,11 @@
+{
+  "python": "3.14.3",
+  "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "cpu": "Apple M4 Pro",
+  "numpy": "2.5.4",
+  "torch": "2.15.0",
+  "sklearn": "1.9.1",
+  "rasterio": "1.5.2",
+  "pyshp": "3.1.7"
+}

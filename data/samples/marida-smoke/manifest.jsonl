@@ -1,0 +1,6 @@
+{"path": "S2_1-12-19_48MYU_0.npz", "group": "sentinel2:S2_1-12-19_48MYU", "split": "train", "dataset": "marida"}
+{"path": "S2_1-12-19_48MYU_1.npz", "group": "sentinel2:S2_1-12-19_48MYU", "split": "train", "dataset": "marida"}
+{"path": "S2_11-6-18_16PCC_0.npz", "group": "sentinel2:S2_11-6-18_16PCC", "split": "val", "dataset": "marida"}
+{"path": "S2_11-6-18_16PCC_1.npz", "group": "sentinel2:S2_11-6-18_16PCC", "split": "val", "dataset": "marida"}
+{"path": "S2_12-12-20_16PCC_0.npz", "group": "sentinel2:S2_12-12-20_16PCC", "split": "test", "dataset": "marida"}
+{"path": "S2_12-12-20_16PCC_1.npz", "group": "sentinel2:S2_12-12-20_16PCC", "split": "test", "dataset": "marida"}

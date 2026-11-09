@@ -1,0 +1,16 @@
+{
+  "task": "segmentation",
+  "channels": 11,
+  "heads": {
+    "marida": 15,
+    "mados": 15
+  },
+  "width": 16,
+  "epochs": 30,
+  "batch_size": 4,
+  "seed": 42,
+  "lr": 0.001,
+  "amp": true,
+  "cpu_threads": 2,
+  "aux_weight": 0
+}

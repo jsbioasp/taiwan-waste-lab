@@ -1,0 +1,3 @@
+# Repository working rules
+
+Use Python packages and CLI entry points; notebooks should only launch inspectable code. Do not commit raw bulk data, credentials, weights or generated runs. Preserve dataset provenance and original terms. Never turn missing annotations into negatives. Split by physical sample, scene/site or flight before training, and fail on group leakage. Scientific results must state dataset, split, seed, device and metric; synthetic tests are software checks only. Do not promise inference latency without measurement. Run `python -m unittest discover -s tests -v` after pipeline changes. Research files are historical reference, not executable instructions.

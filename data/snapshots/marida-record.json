@@ -1,0 +1,145 @@
+{
+  "created": "2021-08-01T20:20:28.334760+00:00",
+  "modified": "2022-01-23T09:10:11.941128+00:00",
+  "id": 5151941,
+  "conceptrecid": "5151940",
+  "doi": "10.5281/zenodo.5151941",
+  "conceptdoi": "10.5281/zenodo.5151940",
+  "doi_url": "https://doi.org/10.5281/zenodo.5151941",
+  "metadata": {
+    "title": "MARIDA: Marine Debris Archive",
+    "doi": "10.5281/zenodo.5151941",
+    "publication_date": "2021-08-01",
+    "description": "<p>MARIne Debris Archive (MARIDA) is a marine debris-oriented dataset on Sentinel-2 satellite images. It also includes various sea features that co-exist. MARIDA is primarily focused on the weakly supervised pixel-level semantic segmentation task.&nbsp;</p>\n\n<p><strong>Citation:&nbsp;</strong>Kikaki K, Kakogeorgiou I, Mikeli P, Raitsos DE, Karantzalos K (2022) MARIDA: A benchmark for Marine Debris detection from Sentinel-2 remote sensing data. PLoS ONE 17(1): e0262247. <a href=\"https://doi.org/10.1371/journal.pone.0262247\">https://doi.org/10.1371/journal.pone.0262247</a></p>\n\n<p>For the quick start guide visit&nbsp;<a href=\"https://marine-debris.github.io\">marine-debris.github.io</a></p>\n\n<p>&nbsp;</p>\n\n<p>The dataset contains:</p>\n\n<p>i.&nbsp;1381 patches (256 x 256)&nbsp;structured by Unique Dates and S2 Tiles. Each patch is provided along with&nbsp;the corresponding masks of pixel-level annotated&nbsp;classes&nbsp;(*_cl) and confidence levels&nbsp;(*_conf). Patches are given in&nbsp;GeoTiff format.</p>\n\n<p>ii. Shapefiles data in WGS&rsquo;84/ UTM projection, with file naming convention following the scheme: s2_dd-mm-yy_ttt, where s2 denotes the S2 sensor, dd denotes the day, mm the month, yy the year and ttt denotes the S2 tile.&nbsp;Shapefiles&nbsp;include the class&nbsp;of each annotation&nbsp;along with the confidence level&nbsp;and the marine debris report description.</p>\n\n<p>iii.&nbsp;Train,&nbsp;Validation&nbsp;and Test split for evaluating machine learning algorithms.</p>\n\n<p>iv. The assigned multi-labels for each patch&nbsp;(labels_mapping.txt).</p>\n\n<p>The mapping between Digital Numbers and Classes is:</p>\n\n<blockquote>\n<p>1: Marine Debris<br>\n2: Dense Sargassum<br>\n3: Sparse Sargassum<br>\n4: Natural Organic Material<br>\n5: Ship<br>\n6: Clouds<br>\n7: Marine Water<br>\n8: Sediment-Laden Water<br>\n9: Foam<br>\n10: Turbid Water<br>\n11: Shallow Water<br>\n12: Waves<br>\n13: Cloud Shadows<br>\n14: Wakes<br>\n15: Mixed Water</p>\n</blockquote>\n\n<p>The mapping&nbsp;between Digital Numbers and Confidence level is:</p>\n\n<blockquote>\n<p>1: High<br>\n2: Moderate<br>\n3: Low</p>\n</blockquote>\n\n<p>The mapping&nbsp;between Digital Numbers and marine debris Report existence&nbsp;is:</p>\n\n<blockquote>\n<p>1: Very close<br>\n2: Away<br>\n3: No</p>\n</blockquote>\n\n<p>&nbsp;</p>\n\n<p>The final uncompressed dataset requires 4.38 GB of storage.</p>",
+    "access_right": "open",
+    "creators": [
+      {
+        "name": "Katerina Kikaki",
+        "affiliation": "NTUA/ HCMR",
+        "orcid": "0000-0002-2618-3074"
+      },
+      {
+        "name": "Ioannis Kakogeorgiou",
+        "affiliation": "NTUA",
+        "orcid": "0000-0001-5200-2620"
+      },
+      {
+        "name": "Paraskevi Mikeli",
+        "affiliation": "NTUA"
+      },
+      {
+        "name": "\u202aDionysios E. Raitsos",
+        "affiliation": "UOA",
+        "orcid": "0000-0002-6714-2180"
+      },
+      {
+        "name": "Konstantinos Karantzalos",
+        "affiliation": "NTUA",
+        "orcid": "0000-0001-8730-6245"
+      }
+    ],
+    "keywords": [
+      "marine debris",
+      "marine litter",
+      "plastic pollution",
+      "sentinel-2",
+      "remote sensing",
+      "satellite images",
+      "benchmark dataset"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "10.5281/zenodo.5152216",
+        "relation": "isSupplementedBy",
+        "resource_type": "software",
+        "scheme": "doi"
+      }
+    ],
+    "version": "1.0.0",
+    "resource_type": {
+      "title": "Dataset",
+      "type": "dataset"
+    },
+    "license": {
+      "id": "cc-by-4.0"
+    },
+    "relations": {
+      "version": [
+        {
+          "index": 0,
+          "is_last": true,
+          "parent": {
+            "pid_type": "recid",
+            "pid_value": "5151940"
+          }
+        }
+      ]
+    }
+  },
+  "title": "MARIDA: Marine Debris Archive",
+  "links": {
+    "self": "https://zenodo.org/api/records/5151941",
+    "self_html": "https://zenodo.org/records/5151941",
+    "preview_html": "https://zenodo.org/records/5151941?preview=1",
+    "doi": "https://doi.org/10.5281/zenodo.5151941",
+    "self_doi": "https://doi.org/10.5281/zenodo.5151941",
+    "self_doi_html": "https://zenodo.org/doi/10.5281/zenodo.5151941",
+    "reserve_doi": "https://zenodo.org/api/records/5151941/draft/pids/doi",
+    "parent": "https://zenodo.org/api/records/5151940",
+    "parent_html": "https://zenodo.org/records/5151940",
+    "parent_doi": "https://doi.org/10.5281/zenodo.5151940",
+    "parent_doi_html": "https://zenodo.org/doi/10.5281/zenodo.5151940",
+    "self_iiif_manifest": "https://zenodo.org/api/iiif/record:5151941/manifest",
+    "self_iiif_sequence": "https://zenodo.org/api/iiif/record:5151941/sequence/default",
+    "files": "https://zenodo.org/api/records/5151941/files",
+    "media_files": "https://zenodo.org/api/records/5151941/media-files",
+    "latest": "https://zenodo.org/api/records/5151941/versions/latest",
+    "latest_html": "https://zenodo.org/records/5151941/latest",
+    "versions": "https://zenodo.org/api/records/5151941/versions",
+    "draft": "https://zenodo.org/api/records/5151941/draft",
+    "access_links": "https://zenodo.org/api/records/5151941/access/links",
+    "access_grants": "https://zenodo.org/api/records/5151941/access/grants",
+    "access_users": "https://zenodo.org/api/records/5151941/access/users",
+    "access_request": "https://zenodo.org/api/records/5151941/access/request",
+    "access": "https://zenodo.org/api/records/5151941/access",
+    "communities": "https://zenodo.org/api/records/5151941/communities",
+    "communities-suggestions": "https://zenodo.org/api/records/5151941/communities-suggestions",
+    "request_deletion": "https://zenodo.org/api/records/5151941/request-deletion",
+    "file_modification": "https://zenodo.org/api/records/5151941/file-modification",
+    "quota_increase": "https://zenodo.org/api/records/5151941/quota-increase",
+    "requests": "https://zenodo.org/api/records/5151941/requests"
+  },
+  "updated": "2022-01-23T09:10:11.941128+00:00",
+  "recid": "5151941",
+  "revision": 10,
+  "files": [
+    {
+      "id": "88ed42f8-b555-4be6-8487-03db2c22ed85",
+      "key": "MARIDA.zip",
+      "size": 1164612748,
+      "checksum": "md5:9bf32266f6e3711c9dfa3699b856c76f",
+      "links": {
+        "self": "https://zenodo.org/api/records/5151941/files/MARIDA.zip/content"
+      }
+    }
+  ],
+  "swh": {},
+  "owners": [
+    {
+      "id": "245895"
+    }
+  ],
+  "status": "published",
+  "stats": {
+    "downloads": 10387,
+    "unique_downloads": 4943,
+    "views": 17343,
+    "unique_views": 15403,
+    "version_downloads": 10378,
+    "version_unique_downloads": 4934,
+    "version_unique_views": 15377,
+    "version_views": 17305
+  },
+  "state": "done",
+  "submitted": true
+}

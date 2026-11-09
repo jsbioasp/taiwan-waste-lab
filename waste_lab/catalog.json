@@ -1,0 +1,396 @@
+[
+  {
+    "id": "marida",
+    "domain": "marine",
+    "url": "https://zenodo.org/records/5151941",
+    "license": "CC-BY-4.0",
+    "status": "Full original downloaded and checksum-verified; six-patch adapter/train/test check passed",
+    "notes": "GeoTIFF adapter; preserve official splits and ignore unannotated pixels.",
+    "zenodo_record": "5151941",
+    "local": "data/raw/marida/MARIDA.zip"
+  },
+  {
+    "id": "mados",
+    "domain": "marine",
+    "url": "https://zenodo.org/records/10664073",
+    "license": "CC-BY-4.0",
+    "status": "Metadata/file size/license retrieved; archive not downloaded",
+    "notes": "Stack/resample with upstream tools first; explicitly reconcile bands and label maps.",
+    "zenodo_record": "10664073"
+  },
+  {
+    "id": "floatingobjects",
+    "domain": "marine",
+    "url": "https://github.com/ESA-PhiLab/floatingobjects",
+    "license": "Verify data separately from code",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Manual download; line annotations are not exhaustive pixel masks."
+  },
+  {
+    "id": "aerialwaste",
+    "domain": "land",
+    "url": "https://zenodo.org/records/12607190",
+    "license": "CC-BY-NC-ND-4.0; verify record",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Research candidate; classification/image masks differ by release.",
+    "zenodo_record": "12607190"
+  },
+  {
+    "id": "haida",
+    "domain": "aerial",
+    "url": "https://github.com/LiaoSteve/HAIDA-Trash-Dataset-High-Resolution-Aerial-image",
+    "license": "Image license scope unresolved",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Manual Drive downloads; inspect Ezlabel format and convert to YOLO; split by flight/site."
+  },
+  {
+    "id": "mdimagenet",
+    "domain": "aerial",
+    "url": "https://www.digitimes.com.tw/seminar/mdivrc_2026/index.html",
+    "license": "Unverified reported CC-BY-4.0",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Candidate only: download access and dataset terms not verified."
+  },
+  {
+    "id": "moenv-dumps",
+    "domain": "taiwan",
+    "url": "https://data.gov.tw/en/datasets/145968",
+    "license": "OGDL-1.0",
+    "status": "2026-09-09 archive downloaded; 491 point records converted with text-quality flags",
+    "notes": "moenv-index then moenv-fetch; dated site archive is weak supervision, not image truth.",
+    "local": "data/samples/moenv-20260909"
+  },
+  {
+    "id": "taoyuan-landfills",
+    "domain": "taiwan",
+    "url": "https://data.gov.tw/en/datasets/76762",
+    "license": "Check current portal",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Legal landfill locations; legality is not visible in pixels."
+  },
+  {
+    "id": "tainan-dumps",
+    "domain": "taiwan",
+    "url": "https://data.gov.tw/en/datasets/173490",
+    "license": "Check current portal",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Locations may need geocoding."
+  },
+  {
+    "id": "oca-cleanups",
+    "domain": "taiwan",
+    "url": "https://data.gov.tw/en/datasets/172912",
+    "license": "OGDL-1.0",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Collection effort confounds tonnage; not segmentation ground truth."
+  },
+  {
+    "id": "oca-floating-survey",
+    "domain": "taiwan",
+    "url": "https://data.gov.tw/en/datasets/175841",
+    "license": "OGDL-1.0",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Report PDF; inspect dates/coordinates before deriving any labels."
+  },
+  {
+    "id": "oca-seabed",
+    "domain": "taiwan",
+    "url": "https://data.gov.tw/en/datasets/172481",
+    "license": "Check current portal",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Context only; seabed observations do not label surface imagery."
+  },
+  {
+    "id": "sow",
+    "domain": "taiwan",
+    "url": "https://www.sow.org.tw/",
+    "license": "Verify reuse terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Request survey records; beach counts do not directly validate floating debris."
+  },
+  {
+    "id": "nmhc",
+    "domain": "taiwan",
+    "url": "https://data.gov.tw/en/datasets/34829",
+    "license": "Check current portal",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Non-methane hydrocarbons are not methane; separate monitoring project."
+  },
+  {
+    "id": "rruff",
+    "domain": "raman",
+    "url": "https://www.rruff.net/",
+    "license": "Verify current terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Manual spectral import; mineral task, not general polymer identification."
+  },
+  {
+    "id": "ramanspy",
+    "domain": "raman",
+    "url": "https://ramanspy.readthedocs.io/en/latest/datasets.html",
+    "license": "Per source",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Loader collection, not a unified dataset license."
+  },
+  {
+    "id": "bacteria-id",
+    "domain": "raman",
+    "url": "https://github.com/csho33/bacteria-ID",
+    "license": "Verify data terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Bacterial isolate task; cannot infer waste polymer labels."
+  },
+  {
+    "id": "mlrod",
+    "domain": "raman",
+    "url": "https://zenodo.org/records/7036374",
+    "license": "Verify code vs data scope",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Record may contain code; list files before downloading.",
+    "zenodo_record": "7036374"
+  },
+  {
+    "id": "raman-api",
+    "domain": "raman",
+    "url": "https://arxiv.org/abs/2601.16107",
+    "license": "Locate original data terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Pharmaceutical spectra; source adapter pending."
+  },
+  {
+    "id": "ramanbench",
+    "domain": "raman",
+    "url": "https://huggingface.co/datasets/HTW-KI-Werkstatt/RamanBench",
+    "license": "Per original dataset",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Avoid mixing instruments/axes without explicit harmonization."
+  },
+  {
+    "id": "openspecy",
+    "domain": "spectra",
+    "url": "https://github.com/wincowgerDEV/OpenSpecy-package",
+    "license": "Check library and code separately",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Raman/FTIR references; matching is a useful baseline."
+  },
+  {
+    "id": "madlib",
+    "domain": "reflectance",
+    "url": "https://data.4tu.nl/datasets/059551d3-2383-4e20-af2d-011c9a59d3ac",
+    "license": "Reported CC-BY-4.0; verify",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Manual download; group repeated spectra by physical sample and source library."
+  },
+  {
+    "id": "knaeps",
+    "domain": "reflectance",
+    "url": "https://data.4tu.nl/articles/_/12896312/2",
+    "license": "CC0 (retrieved version-2 record)",
+    "status": "Metadata retrieved; original file downloads returned HTTP 504",
+    "notes": "Wet/dry/submerged plastic reflectance; small robustness dataset."
+  },
+  {
+    "id": "rodare-polymers",
+    "domain": "hyperspectral",
+    "url": "https://rodare.hzdr.de/record/3390",
+    "license": "Reported CC-BY-4.0; verify",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Lab hyperspectral polymer cubes; not satellite imagery."
+  },
+  {
+    "id": "usgs-v7",
+    "domain": "reflectance",
+    "url": "https://www.usgs.gov/data/usgs-spectral-library-version-7-data",
+    "license": "Check item-specific terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Reflectance library, not a substitute for Raman spectra."
+  },
+  {
+    "id": "tasseron",
+    "domain": "reflectance",
+    "url": "https://data.4tu.nl/datasets/3c284d5d-216e-401b-9e9a-85591417a9d0",
+    "license": "Reported CC-BY-4.0; verify",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Floating plastics hyperspectral reference."
+  },
+  {
+    "id": "spectralwaste",
+    "domain": "hyperspectral",
+    "url": "https://zenodo.org/records/10880544",
+    "license": "Verify record",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "RGB and NIR segmentation; object categories need not be polymer labels.",
+    "zenodo_record": "10880544"
+  },
+  {
+    "id": "nir-mfco",
+    "domain": "hyperspectral",
+    "url": "https://zenodo.org/records/7638775",
+    "license": "Verify record",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Material flow composition; different target from object identification.",
+    "zenodo_record": "7638775"
+  },
+  {
+    "id": "plp2021",
+    "domain": "marine",
+    "url": "https://zenodo.org/records/7085112",
+    "license": "Reported CC-BY-4.0; verify",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Large controlled-target collection; select one date, do not bulk download.",
+    "zenodo_record": "7085112"
+  },
+  {
+    "id": "starcop",
+    "domain": "methane",
+    "url": "https://zenodo.org/records/7863343",
+    "license": "CC-BY-NC-4.0",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Use upstream architecture/checkpoints; methane signature does not identify plastics.",
+    "zenodo_record": "7863343"
+  },
+  {
+    "id": "methanemapper",
+    "domain": "methane",
+    "url": "https://github.com/UCSB-VRL/MethaneMapper-Spectral-Absorption-aware-Hyperspectral-Transformer-for-Methane-Detection",
+    "license": "Verify data terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Large research-only candidate; no local Taiwan paired plume labels established."
+  },
+  {
+    "id": "mars-s2l",
+    "domain": "methane",
+    "url": "https://huggingface.co/datasets/UNEP-IMEO/MARS-S2L",
+    "license": "Reported CC-BY-NC-SA-4.0; verify weights scope",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Large research candidate; use small subsets."
+  },
+  {
+    "id": "emit",
+    "domain": "hyperspectral",
+    "url": "https://www.earthdata.nasa.gov/data/instruments/emit",
+    "license": "Check product terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Earthdata access; coverage does not guarantee an acquisition or detectable plume."
+  },
+  {
+    "id": "carbon-mapper",
+    "domain": "methane",
+    "url": "https://data.carbonmapper.org/",
+    "license": "Check product terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Query detections; missing detections are not verified negatives."
+  },
+  {
+    "id": "sentinel2",
+    "domain": "imagery",
+    "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a",
+    "license": "Copernicus terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "search-sentinel lists scenes; sign asset URLs for download; align bands/cloud masks."
+  },
+  {
+    "id": "sentinel1",
+    "domain": "imagery",
+    "url": "https://dataspace.copernicus.eu/",
+    "license": "Copernicus terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Separate SAR preprocessing and model; not interchangeable with optical channels."
+  },
+  {
+    "id": "landsat",
+    "domain": "imagery",
+    "url": "https://www.usgs.gov/landsat-missions",
+    "license": "Check product terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Free imagery; coarser resolution; sensor-specific bands and scale factors."
+  },
+  {
+    "id": "enmap",
+    "domain": "hyperspectral",
+    "url": "https://www.enmap.org/",
+    "license": "Registration and product terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Advanced material sensing candidate."
+  },
+  {
+    "id": "prisma",
+    "domain": "hyperspectral",
+    "url": "https://prisma.asi.it/",
+    "license": "Registration and product terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Advanced material sensing candidate."
+  },
+  {
+    "id": "nlsc-orthophotos",
+    "domain": "imagery",
+    "url": "https://maps.nlsc.gov.tw/",
+    "license": "Viewing does not grant training/redistribution rights",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Manual licensed access; no scraper."
+  },
+  {
+    "id": "formosat",
+    "domain": "imagery",
+    "url": "https://www.tasa.org.tw/",
+    "license": "Access and costs require verification",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Optional future imagery source; not needed for free baseline."
+  },
+  {
+    "id": "planet-research",
+    "domain": "imagery",
+    "url": "https://www.planet.com/markets/education-and-research/",
+    "license": "Program eligibility and terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Optional application; not assumed free or approved."
+  },
+  {
+    "id": "sun-dumpsites",
+    "domain": "land",
+    "url": "https://www.nature.com/articles/s41467-023-37136-1",
+    "license": "Reported academic use only; verify",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "High-resolution global dumps; download path needs verification."
+  },
+  {
+    "id": "slopp",
+    "domain": "raman",
+    "url": "https://plasticactioncentre.ca/directory/slopp-and-slopp-e-raman-spectral-libraries-for-microplastics-research/",
+    "license": "Verify library terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Pristine and aged plastic spectra; manual import."
+  },
+  {
+    "id": "ecostress",
+    "domain": "reflectance",
+    "url": "https://speclib.jpl.nasa.gov/",
+    "license": "Verify library terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Reference library; not a Raman training dataset."
+  },
+  {
+    "id": "dong-weathered",
+    "domain": "raman",
+    "url": "https://data.mendeley.com/datasets/kpygrf9fg6/2",
+    "license": "Verify record terms",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Small weathered plastic library; group by sample."
+  },
+  {
+    "id": "contaminated-sites",
+    "domain": "taiwan",
+    "url": "https://data.gov.tw/en/datasets/8817",
+    "license": "Verify current portal",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Contamination is not necessarily visually detectable."
+  },
+  {
+    "id": "tainan-cleanups",
+    "domain": "taiwan",
+    "url": "https://data.gov.tw/en/datasets/137782",
+    "license": "Verify current portal",
+    "status": "candidate; inspect original terms and schema before use",
+    "notes": "Cleanup activity; requires effort-aware interpretation."
+  }
+]

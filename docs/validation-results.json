@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-09",
+  "environment": {
+    "python": "3.14.3",
+    "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu": "Apple M4 Pro",
+    "numpy": "2.5.4",
+    "torch": "2.15.0",
+    "sklearn": "1.9.1",
+    "rasterio": "1.5.2",
+    "pyshp": "3.1.7"
+  },
+  "tests_passed": 8,
+  "marida": {
+    "archive_bytes": 1164612748,
+    "archive_sha256": "e19227596018348169b11a78d033890adb97d4b4f4c069f061cfcfab21d48d08",
+    "full_splits": {
+      "train": 694,
+      "val": 328,
+      "test": 359
+    },
+    "included_subset": {
+      "train": 2,
+      "val": 2,
+      "test": 2
+    },
+    "training_epochs": 2,
+    "latency": {
+      "device": "cpu",
+      "shape": [
+        11,
+        256,
+        256
+      ],
+      "batch_size": 1,
+      "warmup": 3,
+      "repeats": 20,
+      "median_ms": 10.27527100086445,
+      "p95_ms": 11.189974697481375,
+      "timing_scope": "warm model forward only; excludes loading, preprocessing and output I/O"
+    },
+    "warning": "Software smoke test only; tiny subset does not establish accuracy"
+  },
+  "taiwan_sites": {
+    "records": 491,
+    "source_snapshot": "2026-09-09",
+    "text_replacement_records": 20,
+    "labels": "Candidate sites; no image labels"
+  },
+  "live_stac_search": {
+    "scenes": 2,
+    "more_pages": true
+  },
+  "untested": [
+    "CUDA execution",
+    "Hosted notebook execution",
+    "HAIDA download and YOLO training",
+    "MADOS preparation",
+    "Knaeps import",
+    "Methane pipeline"
+  ]
+}

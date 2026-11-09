@@ -1,0 +1,16 @@
+{
+  "failed": [
+    {
+      "dataset": "knaeps",
+      "error": "HTTP Error 504: Gateway Time-out"
+    },
+    {
+      "dataset": "knaeps",
+      "error": "HTTP Error 504: Gateway Time-out"
+    },
+    {
+      "dataset": "knaeps",
+      "error": "HTTP Error 504: Gateway Time-out"
+    }
+  ]
+}

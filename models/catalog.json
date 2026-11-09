@@ -1,0 +1,80 @@
+[
+  {
+    "id": "small-1d-cnn",
+    "status": "implemented",
+    "source": "waste_lab/models.py",
+    "notes": "Generic spectral baseline; not exact Liu/SANet/DRCNN reproduction"
+  },
+  {
+    "id": "svm-random-forest",
+    "status": "implemented",
+    "source": "waste_lab/baseline.py",
+    "notes": "Spectra and pooled image-feature baselines"
+  },
+  {
+    "id": "pixel-random-forest",
+    "status": "implemented",
+    "source": "scripts/pixel_rf.py",
+    "notes": "Spectral-only pixel classifier"
+  },
+  {
+    "id": "small-segmentation-multitask",
+    "status": "implemented",
+    "source": "waste_lab/models.py",
+    "notes": "Shared trunk, per-dataset heads, optional NDVI auxiliary loss"
+  },
+  {
+    "id": "yolo11n",
+    "status": "optional-runner",
+    "source": "https://docs.ultralytics.com/",
+    "notes": "scripts/aerial.py; requires converted dataset and dependency"
+  },
+  {
+    "id": "marinedebrisdetector",
+    "status": "upstream-reference",
+    "source": "https://github.com/marccoru/marinedebrisdetector",
+    "notes": "Pretrained UNet++; verify input bands/calibration and weight access"
+  },
+  {
+    "id": "marida-baselines",
+    "status": "upstream-reference",
+    "source": "https://github.com/marine-debris/marine-debris.github.io",
+    "notes": "U-Net, RF, ResNet reproduction code"
+  },
+  {
+    "id": "marinext",
+    "status": "upstream-reference",
+    "source": "https://github.com/gkakogeorgiou/mados",
+    "notes": "MADOS architecture; requires upstream environment"
+  },
+  {
+    "id": "resattunet",
+    "status": "upstream-reference",
+    "source": "https://github.com/sheikhazhanmohammed/SADMA",
+    "notes": "Verify repository and evaluation protocol"
+  },
+  {
+    "id": "starcop",
+    "status": "upstream-reference",
+    "source": "https://github.com/spaceml-org/starcop",
+    "notes": "Methane-specific processing required"
+  },
+  {
+    "id": "methanemapper",
+    "status": "upstream-reference",
+    "source": "https://github.com/UCSB-VRL/MethaneMapper-Spectral-Absorption-aware-Hyperspectral-Transformer-for-Methane-Detection",
+    "notes": "Heavy hyperspectral alternative"
+  },
+  {
+    "id": "spectral-foundation-models",
+    "status": "research-candidate",
+    "source": "https://github.com/VMarsocci/pangaea-bench",
+    "notes": "CROMA/DOFA and related encoders require verified channel adapters"
+  },
+  {
+    "id": "raman-benchmark",
+    "status": "research-candidate",
+    "source": "https://arxiv.org/abs/2601.16107",
+    "notes": "Compare published Raman models within a common protocol"
+  }
+]
