@@ -1,117 +1,141 @@
 # Taiwan Waste Lab
 
-A student research repository for low-cost waste detection, spectral identification and combined objectives. Train on Kaggle/Colab, run small inference jobs on CPU. No local GPU is required.
+Code and data for detecting waste in Taiwan from **drone photos** and **free satellite images**, using datasets and models built elsewhere (transfer learning). Everything trains on free hosted GPUs (Kaggle or Colab) and runs inference on a laptop CPU.
 
-## What is included
+This is a research starter, not finished software. The code runs and is tested. Nothing in it has yet been shown to detect waste in Taiwan. Finding out what works is the project. The open questions are in [To-dos](#to-dos) and [`docs/PATHS.md`](docs/PATHS.md).
 
-| Path | Included code | Data readiness |
+## What's in the repo
+
+| Path | What it is |
+|---|---|
+| `waste_lab/` | Python package: data loading, a small PyTorch model, training and evaluation, download helpers. Run it as `python -m waste_lab <command>`. |
+| `scripts/` | Stand-alone scripts for specific datasets (MARIDA, MOENV, Sentinel-2 over Taiwan, drone detection with YOLO). |
+| `configs/` | JSON configs for `waste_lab train`: real MARIDA runs plus toy examples. |
+| `data/samples/` | Small real data that ships with the repo: 491 Taiwan dump-site records, 6 MARIDA patches, a synthetic spectra file. |
+| `data/snapshots/` | Metadata records for MARIDA, MADOS, Knaeps and a Sentinel-2 search. These are metadata only, not imagery. |
+| `data/templates/` | Blank CSVs for a drone train/test split and a dump-site review. |
+| `data/raw/`, `data/processed/`, `runs/` | Git-ignored. Downloads, prepared data and run outputs go here. |
+| `tests/` | 8 unit tests (`python -m unittest discover -s tests -v`). |
+| `notebooks/hosted-starter.ipynb` | A thin launcher for Colab/Kaggle: installs the package and runs a toy job. |
+| `docs/` | Research paths, the research log, setup, dataset notes, validation record. See [Docs](#docs). |
+| `research/` | The original research notes that started this project. They're useful leads, but **unverified**; see `research/README.md`. |
+
+### The `waste_lab` package
+
+| Module | What it does |
+|---|---|
+| `models.py` | `SmallModel`: a deliberately small CNN with one **shared encoder** and **one output head per dataset**. It handles three task shapes: 1-D spectra, image classification and pixel segmentation. Segmentation can add an **auxiliary head** that predicts NDVI from the image (`aux_weight`, `red_index`, `nir_index` in the config). |
+| `train.py` | Training with AdamW. Normalization statistics come from the training split only. Pixels labelled `-1` are ignored. `best.pt` is chosen by validation macro-F1, `last.pt` supports `--resume`, and every epoch is logged to `history.jsonl`. Also contains `evaluate` (val or test split) and `predict` (one sample, with warm CPU/GPU timing). |
+| `data.py` | Reads and checks manifests: no file in two splits, no group in two splits, labels within each head's class range. `toy` generates synthetic data for every task shape. |
+| `baseline.py` | CPU baselines (SVM or random forest) for spectra or per-image summary features. |
+| `prepare.py` | Converts a wide spectra CSV, or a GeoTIFF image + mask, into the repo's format (explicit bands, scale and label map). |
+| `download.py` | Dataset catalog (`catalog.json`, 48 candidate datasets with license notes), checksum- and size-capped downloads, Zenodo file listing, MOENV archive index/fetch. |
+| `taiwan.py` | Searches Microsoft Planetary Computer's free Sentinel-2 catalog for scenes in a bounding box (first page of results only). |
+| `cli.py` | The commands below. |
+
+| Command | What it does |
+|---|---|
+| `catalog` | Print the 48-dataset catalog |
+| `toy` | Make synthetic data to test the pipeline |
+| `validate MANIFEST CONFIG` | Check a manifest against a config before training |
+| `train MANIFEST CONFIG --out DIR` | Train `SmallModel` (`--device auto` uses CUDA if available) |
+| `evaluate CHECKPOINT MANIFEST` | Score a checkpoint on the test (or `--split val`) split |
+| `predict CHECKPOINT INPUT.npz --head H --out FILE` | Predict one sample and time it |
+| `baseline MANIFEST --head H --kind svm\|rf --out DIR` | Train an SVM or random-forest baseline |
+| `zenodo DATASET [--file F --accept-terms]` | List or download files from a Zenodo record |
+| `moenv-index` / `moenv-fetch` | List and download MOENV dump-site archives (needs a MOENV API key in your environment) |
+| `prepare-spectra` / `prepare-geotiff` | Convert source data into the repo format |
+| `search-sentinel --bbox W S E N --dates A/B --out FILE` | Find Sentinel-2 scenes |
+
+### Scripts
+
+| Script | What it does | Status |
 |---|---|---|
-| Raman / reflectance classification | Small 1D CNN, SVM, RF, wide-CSV adapter | Synthetic runnable example; original libraries require per-source conversion |
-| Marine debris | Small encoder-decoder, dataset-specific heads, optional NDVI auxiliary loss | GeoTIFF adapter; MARIDA/MADOS catalog + selective Zenodo download |
-| Taiwan dumpsites | MOENV index/archive downloader, Sentinel-2 scene search, site-review template, image classifier | Requires dated imagery and manual visible-waste labels |
-| Aerial litter | Ultralytics train/predict runner and group-split audit | HAIDA download references; annotation conversion required |
-| Methane / hyperspectral | Source and upstream-code references | Research extension, not an implemented methane detector |
+| `fetch_starter_data.py` | Downloads MARIDA (1.16 GB, checksum-verified), the MOENV 2026-09-09 archive and the Knaeps spectra | MARIDA and MOENV work; the Knaeps server returned HTTP 504 |
+| `prepare_marida.py` | Converts MARIDA's ZIP into the repo format, keeping the official splits (694 train / 328 val / 359 test patches) | Run on the full set |
+| `pixel_rf.py` | Spectral-only random forest on labelled MARIDA pixels; writes `metrics.json` and `model.joblib` | Run; results in `docs/LOG.md` |
+| `fetch_taiwan_s2.py` | Downloads a cloud-free Sentinel-2 crop of Taiwan's northeast coast, computes FDI/NDVI and writes PNG previews plus a 12-band GeoTIFF | Run |
+| `predict_taiwan_rf.py` | Applies the MARIDA random forest to that Taiwan crop: water only, excluding 50 m along the coast | Run; the result is the start of Path B |
+| `prepare_moenv.py` | Converts a MOENV dump-site archive (Big5 DBF) into GeoJSON plus a review CSV | Run on the 2026-09-09 snapshot |
+| `aerial.py` | Trains or predicts with an Ultralytics YOLO model on a YOLO-format dataset | Untested on real data; image size hard-coded to 640 |
+| `audit_aerial_split.py` | Checks a drone split CSV: no image twice, no flight in two splits | Untested on real data (the template is just a header row) |
 
-This is a runnable experiment foundation, not pretrained production software or a claim to reproduce published architectures. The catalog covers candidate datasets from both discussions. `models/catalog.json` distinguishes implemented baselines, optional runners and upstream model references. Large originals remain in ignored `data/raw/`; access-restricted resources have source links and explicit prerequisites.
+### Data format
 
-## Real data already included
+Each sample is an `.npz` file with float32 `x` and integer `y`:
 
-- `data/samples/moenv-20260909/`: 491 public Taiwan site records as GeoJSON and a blank image-review CSV, with source provenance and flagged text-decoding issues.
-- `data/samples/marida-smoke/`: six attributed real MARIDA patches (two per official split), prepared for the training code. This deliberately tiny subset is a software test, not a benchmark.
-- `data/raw/marida/MARIDA.zip`: the complete 1.16 GB archive downloaded locally and checksum-verified. It is excluded from Git and the sharing ZIP; the fetch script reproduces it.
-- `data/snapshots/`: original metadata for MARIDA, MADOS and the Knaeps library, plus the setup download-status record. The Knaeps file requests failed with HTTP 504; no spectral library download is claimed.
+| Task | `x` | `y` |
+|---|---|---|
+| Spectra | `(1, L)` | class index |
+| Image classification | `(C, H, W)` | class index |
+| Segmentation | `(C, H, W)` | `(H, W)` class map; `-1` = unlabelled, ignored |
 
-Run the real-image software check after installation:
+A JSONL manifest lists the samples, one per line: `{"path": "patch.npz", "group": "sentinel2:date:tile", "split": "train", "dataset": "marida"}`. The `group` keeps related samples together. One satellite scene or one drone flight is one group, and a group can only appear in one split. `waste_lab validate` enforces that.
 
-```bash
-python -m waste_lab train data/samples/marida-smoke/manifest.jsonl configs/marida-smoke.json --out runs/my-marida-check --device cpu
-python scripts/pixel_rf.py data/samples/marida-smoke/manifest.jsonl --head marida --out runs/my-rf-check
-```
-
-## Start for free
-
-Use Python 3.10+ (3.11/3.12 recommended in hosted environments).
+## Quick start
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
-python -m waste_lab catalog
-python -m waste_lab toy
-python -m waste_lab train data/processed/toy/spectra/manifest.jsonl configs/toy-spectra.json --out runs/spectra --device cpu
-python -m waste_lab evaluate runs/spectra/best.pt data/processed/toy/spectra/manifest.jsonl
-python -m waste_lab predict runs/spectra/best.pt data/processed/toy/spectra/source_a_test_0.npz --head source_a --out runs/spectra/prediction.npz
-python -m waste_lab baseline data/processed/toy/spectra/manifest.jsonl --head source_a --kind svm --out runs/svm
+python -m venv .venv && source .venv/bin/activate
+pip install -e '.[geo]'                  # add ',aerial' for YOLO
+python -m unittest discover -s tests -v  # 8 tests should pass
+
+python -m waste_lab toy                  # synthetic smoke test
+python -m waste_lab train data/samples/marida-smoke/manifest.jsonl configs/marida-smoke.json --out runs/marida-smoke --device cpu
+python scripts/fetch_taiwan_s2.py .      # a real Taiwan satellite crop, about a minute on CPU
 ```
 
-Synthetic data only tests code. Its accuracy does not measure chemical identification or waste detection. A tiny synthetic wide CSV is also tracked at `data/samples/synthetic-spectra.csv`.
+For Kaggle/Colab setup, uploading data and saving outputs, see [`docs/STUDENT_START.md`](docs/STUDENT_START.md).
 
-## Combined objectives
+## What we know so far
 
-```bash
-python -m waste_lab train data/processed/toy/segmentation/manifest.jsonl configs/toy-segmentation.json --out runs/seg-baseline
-python -m waste_lab train data/processed/toy/segmentation/manifest.jsonl configs/toy-segmentation-aux.json --out runs/seg-aux
-```
+The details, with numbers, are in [`docs/LOG.md`](docs/LOG.md):
 
-Both runs use the same shared encoder and per-dataset class heads. The second also predicts NDVI from image features. For real imagery set verified red/NIR channel indices after band harmonization; the toy channels are synthetic. NDVI is derivable from the input and adds no new chemical ground truth. Test whether its supervision helps, with an alpha sweep including zero and a shuffled-target control before interpreting a gain. Dataset heads allow different class vocabularies, but inputs must represent the same physical bands/axis.
+- **HAIDA** (Taiwan drone litter, from NTOU) downloads fine. It has about 1,700 frames from 18 flights, with boxes labelled `garbage` or `bottle`. The litter is tiny, typically 0.2% of the frame.
+- **A MARIDA-trained random forest doesn't transfer to Taiwan.** It reaches test macro-F1 0.50 on MARIDA but labels 65% of cloud-free Taiwan sea as "Clouds". Taiwan's water is about twice as bright in the infrared. Suspects: sun glint, or the processing mismatch (MARIDA used ACOLITE, our crop is Sen2Cor L2A). Both are untested.
+- **FDI on its own flags the coastline and boats**, not debris, on an ordinary clear day.
 
-Training uses train-only channel normalization, ignores labels `-1`, selects checkpoints using validation macro-F1, and leaves test evaluation to a separate command. For a single-source comparison, filter the manifest to that source and remove the other head from the config. For pooled training, harmonize labels first and rename both dataset IDs to a common head. Preserve globally identical group IDs for overlapping scenes across libraries.
+## To-dos
 
-## Actual datasets
+### Research: pick a path, or propose your own
 
-```bash
-# Prints exact filenames, sizes, checksums and current record license; downloads nothing.
-python -m waste_lab zenodo marida
-python -m waste_lab zenodo mados
-# Substitute one exact filename from the listing, after reviewing its terms.
-python -m waste_lab zenodo marida --file EXACT_FILENAME --max-gb 2 --accept-terms
-# MOENV developer key belongs in the environment, never in Git.
-python -m waste_lab moenv-index
-python -m waste_lab moenv-fetch data/raw/moenv/index.json EXACT_ARCHIVE_FILENAME
-# First-page scene discovery only; does not fetch full satellite scenes.
-python -m waste_lab search-sentinel --bbox 121.7 25.0 121.9 25.2 --dates 2025-01-01/2025-12-31 --out data/raw/taiwan-scenes.json
-```
+These are open questions. [`docs/PATHS.md`](docs/PATHS.md) has guidance for each, plus ideas for your own:
 
-See `docs/DATASETS.md` for acquisition and preparation. `data/snapshots/` contains any small real-data source indexes acquired during setup; it does not contain labelled satellite imagery.
+- [ ] **Path A: Taiwan drone litter.** How well does a pretrained detector learn Taiwan's coastal litter from HAIDA, and what transfers?
+- [ ] **Path B: Taiwan satellite debris.** Why does the satellite model see clouds over Taiwan's sea, and can you fix it?
+- [ ] **Path C: Taiwan dump sites.** Can Taiwan's reported dump sites be seen at 10 m resolution?
+- [ ] **Your own path**, agreed with your instructor.
 
-## Real input contract
+### Code
 
-Each NPZ has float32 `x` and integer `y`, loaded without pickle:
+Good first contributions. Each one unblocks a path:
 
-- Spectra: `x=(1,L)`, `y=scalar class index`.
-- Image classification: `x=(C,H,W)`, `y=scalar class index`.
-- Segmentation: `x=(C,H,W)`, `y=(H,W)`; `-1` is unlabelled/ignored.
-- Class indices start at zero and must fit that dataset's head.
-- All examples in a run share input shape and physical channel/axis order.
+- [ ] HAIDA Pascal VOC → YOLO converter, with a visual check of the converted boxes (Path A)
+- [ ] A script that builds a flight-level HAIDA split into `data/templates/aerial-split.csv` (Path A)
+- [ ] An `--imgsz` option for `scripts/aerial.py`, which is hard-coded to 640 (Path A)
+- [ ] A spectral correction option in `predict_taiwan_rf.py`, to test the glint idea (Path B)
+- [ ] A coastline buffer for the FDI hotspots in `fetch_taiwan_s2.py`; the random-forest script already has one (Path B)
+- [ ] Run the published pretrained detector ([marinedebrisdetector](https://github.com/marccoru/marinedebrisdetector)) on the Taiwan crop in Kaggle (Path B)
+- [ ] Per-class precision and recall in `pixel_rf.py`'s metrics, which currently has F1 and IoU only (all paths)
+- [ ] A MADOS preparation script; `configs/marine-template.json` already expects a `mados` head (Path B, later)
 
-A JSONL manifest has one object per sample: `{"path":"patch.npz","group":"sentinel2:date:tile","split":"train","dataset":"marida"}`. Paths are relative to the manifest. A group may occur in only one split, even across datasets. Keep repeated spectra from the same physical sample, adjacent drone frames from the same flight/site, and repeated satellite observations of the same held-out site together. Preserve official benchmark splits where supplied; document any stronger geographic split separately.
+### Instructor / admin
 
-```bash
-python -m waste_lab prepare-spectra data/samples/synthetic-spectra.csv --out data/processed/csv-demo
-# GeoTIFF adapter needs rasterio; replace every example path and verify bands/scale/classes.
-python -m pip install -e '.[geo]'
-python -m waste_lab prepare-geotiff configs/geotiff-example.json --out data/processed/marine
-python -m waste_lab validate data/processed/marine/manifest.jsonl configs/marine-template.json
-```
+- [ ] GitHub repo visibility, and push
+- [ ] MDImageNet access (a Taiwan coastal set with 34 litter classes), which would allow a real material breakdown
+- [ ] Request the Society of Wilderness 121-station beach survey table (ground truth for Path B)
 
-## Colab / Kaggle
+## Docs
 
-Upload the repo ZIP or clone your own remote, change into its directory, install with `pip install -e .`, then use the commands above. `notebooks/hosted-starter.ipynb` is a thin launcher. Select a GPU only for training; `--device auto` uses CUDA when available. Begin with batch 4, mixed precision, and small patches. Checkpoint to persistent mounted storage (`--out`) and copy data to runtime-local disk for training speed. To resume, increase `epochs` in the same config and pass `--resume /persistent/run/last.pt`. Resume restores optimizer, scaler and Python/Torch RNG state; exact cross-hardware determinism is not guaranteed.
+| File | Read it when |
+|---|---|
+| [`docs/PATHS.md`](docs/PATHS.md) | You're choosing what to work on |
+| [`docs/LOG.md`](docs/LOG.md) | You want to know what's been tried. Add to it as you go. |
+| [`docs/STUDENT_START.md`](docs/STUDENT_START.md) | You're setting up Kaggle, Colab or your laptop |
+| [`docs/DATASETS.md`](docs/DATASETS.md) | You're downloading or preparing a dataset |
+| [`docs/VALIDATION.md`](docs/VALIDATION.md) | You want the original 2026-11-09 setup checks |
 
-Free compute quotas change. Kaggle: https://www.kaggle.com/docs/efficient-gpu-usage ; Colab: https://research.google.com/colaboratory/faq.html . No paid service is required for the toy workflow or initial small baselines.
+## Data, licenses and limits
 
-## Validation
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-Test coverage includes leakage rejection, ignored labels, class mapping, checkpoint/resume, all three task shapes, auxiliary loss, CPU prediction and download integrity/size limits. See `docs/VALIDATION.md` for the actual setup-run results and limitations.
-
-## Scientific limits
-
-Beach cleanup tonnage is effort-dependent, not floating-debris pixel truth. Listed dump coordinates are candidate sites, not verified image positives. Legal landfills can be positive for visible waste while negative for illegal dumping; define the target first. NMHC does not measure methane. Reflectance, FTIR and Raman inputs have different axes and physics. An RGB/satellite detector cannot supply a missing Raman measurement. Multimodal learning is possible in principle with suitable paired data and separate encoders; the unpaired datasets here do not establish it.
-
-## Source terms
-
-Original starter code is provided for this project; no blanket license grant is inferred for third-party datasets, weights or copied research notes. See `THIRD_PARTY.md`. The historical notes are preserved in `research/` as unverified research artifacts, with corrections in `research/README.md`. No GitHub remote is created automatically.
+- **Licenses:** MARIDA is CC BY 4.0 (credit Kikaki et al. 2022). MOENV data falls under the Open Government Data License (credit the source and snapshot date). HAIDA images aren't covered by the repo's MIT code license: cite the NTOU thesis and keep the images out of this repo. Other datasets: check `waste_lab/catalog.json` and `THIRD_PARTY.md` before using them.
+- **No chemistry from these inputs.** Sentinel-2 can show that something is floating, not what it's made of. A `bottle` box is a reasonable PET guess, not a measurement. Raman/spectral material ID is parked: there's no instrument and no Taiwan spectral library. The spectra code stays in case that changes.
+- **Weak labels stay weak.** A site on the government dump list isn't a confirmed visible dump. Beach-cleanup tonnage depends on cleanup effort and isn't a pixel label.

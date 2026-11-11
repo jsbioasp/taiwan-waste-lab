@@ -1,11 +1,44 @@
-# First session
+# Setup
 
-1. Upload/extract the starter ZIP in Colab or Kaggle. Open `notebooks/hosted-starter.ipynb`, set ROOT to the extracted repo directory and run the install cell.
-2. Run the synthetic workflow to learn the commands; its outputs are not research results.
-3. Run the real six-patch MARIDA check from README. Inspect x.shape, labels and the prediction map. Explain why most pixels are ignored.
-4. Open `data/samples/moenv-20260909/sites.geojson` in QGIS and inspect the blank review CSV. Pick 30–50 sites for an imagery-visibility study. Do not invent positive/negative labels from listing status.
-5. Choose one research path after inspecting real inputs. For marine work, prepare the full MARIDA archive with `scripts/prepare_marida.py --limit-per-split 0`, then establish the single-dataset baseline before adding another head/dataset.
+Getting the repo running on Kaggle (the main GPU environment), Colab or your laptop. When it works, head to [`PATHS.md`](PATHS.md) to pick what to work on.
 
-Deliver one run folder containing the exact config, epoch history, checkpoint and evaluation JSON. Report the dataset, split, target, seed, device and measured speed. Keep the test split untouched while tuning. Use a persistent output directory on hosted compute and download the trained artifact before the runtime expires.
+## Laptop (CPU)
 
-The six-patch subset supports a quick software demonstration on CPU. Meaningful accuracy work needs the full benchmark and properly held-out Taiwan labels.
+Python 3.10 or newer.
+
+```bash
+git clone <repo URL from your instructor> taiwan-waste-lab
+cd taiwan-waste-lab
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -e '.[geo]'
+python -m unittest discover -s tests -v              # expect 8 passing tests
+```
+
+A laptop is enough for the satellite scripts, the random forest, the dump-site review and running a trained detector on a few images. Use Kaggle for anything that trains a neural network for more than a few minutes.
+
+## Kaggle (free GPU)
+
+1. Create an account at kaggle.com. To turn on GPU and internet in notebooks, Kaggle may ask you to verify a phone number. Your weekly GPU allowance shows in your account settings. Switch the GPU on only while training.
+2. Create a notebook and set **Accelerator** to a GPU and **Internet** to on.
+3. Get the code: `!git clone <repo URL>` (a private repo needs a token), or upload the repo ZIP as a Kaggle Dataset.
+4. Install: `%cd /kaggle/working/taiwan-waste-lab` then `%pip install -e '.[geo,aerial]'`.
+5. Add data as **Kaggle Datasets** (*Upload → New Dataset*), not to the repo:
+   - HAIDA: extract the zips on your laptop first (`bsdtar -xf HAIDA.zip` on a Mac, 7-Zip on Windows; Python's `zipfile` can't read their PPMd compression), then upload the folders. **Make it private.**
+   - The Taiwan Sentinel-2 GeoTIFF from `scripts/fetch_taiwan_s2.py`, if you want to use it in Kaggle.
+   - Uploaded datasets appear read-only under `/kaggle/input/<name>/`. Copy anything a script needs to write next to into `/kaggle/working/`.
+6. **Save your outputs.** Write runs to `/kaggle/working/runs/...`. Before the session ends, download the run folder or save a notebook version, because an interactive session's files can disappear when it stops.
+
+## Colab
+
+Same idea as Kaggle. `notebooks/hosted-starter.ipynb` is a minimal launcher (set `ROOT` to where the repo is). Free Colab sessions can stop early, so save checkpoints to Google Drive and resume with `--resume /path/to/last.pt`.
+
+## What to keep from every run
+
+Whatever path you're on, keep each run in its own folder with:
+- the exact config (and the command you ran)
+- the training history (`history.jsonl` for `waste_lab train`, `results.csv` for YOLO)
+- the checkpoint or model file
+- the evaluation numbers, on validation while tuning and on test once at the end
+- the dataset, split, seed, device and how long it took
+
+Then add a short entry to [`LOG.md`](LOG.md).
