@@ -1,6 +1,6 @@
 # Research paths
 
-This project is yours to steer. Below are three paths that fit the data and tools already in this repo, plus guidance for proposing your own. They aren't assignments, and they don't have to be done in order. Pick one, combine two, or go somewhere else if you find a better question.
+This project is yours to steer. Below are four paths that fit the data and tools in or around this repo, plus guidance for proposing your own. A–C are about waste; D is about chemicals in Taiwan's air. They aren't assignments, and they don't have to be done in order. Pick one, combine two, or go somewhere else if you find a better question.
 
 **How this works:**
 - **Choose a path, or write a one-paragraph proposal for your own,** and check it with your instructor before you sink a lot of time into it.
@@ -78,6 +78,7 @@ There's no single right choice. Scores marked † come from `research/land_waste
 **Ways in:**
 - **Test the clue.** If the extra brightness is sun glint, subtracting a shortwave-infrared band (B11 or B12) from the other bands should push the water back toward "water." Try it and measure what fraction of open water the model calls water before and after.
 - **Match the processing.** MARIDA's reflectance was made with ACOLITE (free software) from the raw L1C product; ours came from Sen2Cor L2A. Process the Taiwan scene the MARIDA way and see whether the "Clouds" problem shrinks. If it does, it was processing, not Taiwan.
+- **Label a little Taiwan data.** A model that fails on a new domain often recovers with a small amount of labelled data from that domain. A Raman project with the same problem ([raman-open-ml](https://github.com/JoulesSpace/raman-open-ml); AI-built, so treat its numbers as claims) reports 94% accuracy on its own measurements, 55% on a new measurement campaign, and 76% after fine-tuning on a small labelled slice of the new one. Try hand-labelling a few hundred Taiwan pixels (water, ships, wakes and anything that looks like debris), add them to training, and test on a *different* date or stretch of coast.
 - **Compare models on the same scene.** Pick two or more from the table below, run them on the same Taiwan crop, and compare them with each other and with FDI. Do they agree on anything?
 - **Change the scene, not the model.** Look for dates right after heavy rain or a typhoon, when rivers flush debris out to sea. A calm March day may simply have no debris to find.
 
@@ -130,6 +131,7 @@ There's no single right choice; they trade speed, data needs and effort. Scores 
 - Do a visibility study before any machine learning: pick 30–50 sites, look at imagery of each one, and mark each *visible*, *not visible* or *unsure*. That alone is a real finding.
 - **Read the inspection notes first.** A quick keyword count over `現場狀態` finds 掩埋 (buried) in 29 records, 雜草 (overgrown with weeds) in 109, 堆置 (piled up) in 52, and 已清除 / 清理完成 (cleared) in 20. Buried or cleared waste won't show from above at *any* resolution. Sorting the records before picking sites (with keyword rules, or an LLM whose output you spot-check by hand) could make the visibility study far more informative.
 - Pick sites to compare, e.g. "piled" vs "buried" vs "cleared", so the result says something about *which* sites are visible, not just how many.
+- **Test the resolution before you need it.** [AerialWaste](https://github.com/nahitorres/AerialWaste) ([Zenodo 7034381](https://zenodo.org/records/7034381): v3, CC BY-NC-ND 4.0, images in zips of about 2.7 GB each) has thousands of labelled 20–50 cm aerial tiles of Italian dump sites, plus a data loader. Blur them down to 10 m, train a classifier on the blurred tiles, and see how much survives. That predicts what Sentinel-2 could see in Taiwan before you touch Taiwan imagery. Use only the non-Google tiles: the README says Google imagery must follow Google's terms, and those forbid ML training†.
 
 **Open questions you could chase:**
 - What fraction of listed sites are visible at 10 m? Does it depend on waste type, county, or what the inspection notes describe?
@@ -182,6 +184,68 @@ For this path, the imagery decides more than the model. Scores marked † come f
 
 ---
 
+## Path D — Can a satellite measure Taiwan's air pollution?
+
+**The question:** the Sentinel-5P satellite carries a spectrometer (TROPOMI) that measures gases such as NO₂ and SO₂ from orbit. That's real chemical detection, with no lab. How well do its readings over Taiwan match what ground stations measure, and what can you learn from where they disagree?
+
+**What's already here:**
+- No code for this path yet. It's the newest and least scaffolded path, so you'd be building it.
+- **Sentinel-5P** is free on Microsoft Planetary Computer (collection `sentinel-5p-l2-netcdf`, data from 2018-04-30). Products: `no2`, `so2`, `co`, `o3`, `hcho`, `ch4`, aerosol index and clouds. `waste_lab/taiwan.py` and `scripts/fetch_taiwan_s2.py` show the search-and-download pattern. The files are NetCDF, so you'll need `pip install xarray netCDF4`.
+- **MOENV ground stations:** MOENV's open-data API serves air-quality data (e.g. dataset `aqx_p_432`, real-time AQI) and needs a free API key; keep the key in an environment variable, never in Git. Find the hourly historical dataset on MOENV's data portal. The research notes also list an hourly NMHC dataset (data.gov.tw 34829).
+- **Low-cost sensors:** Taiwan's Civil IoT / AirBox network has thousands of cheap PM2.5 sensors. The API address in the research trail served a certificate for the wrong hostname, so find the current one on Civil IoT Taiwan's site.
+
+**Ways in:**
+- **Start with a map.** Average a month of NO₂ over Taiwan. Where are the hotspots: cities, ports, power plants, industrial zones? Does the pattern change with the season?
+- **Compare with the ground.** For each MOENV station, take the satellite value over the station on each overpass day and the station's reading at the overpass hour. How well do they track each other? Then try predicting the station value from the satellite plus weather, and test on stations the model never saw.
+- **Calibrate the cheap sensors.** Pair AirBox sensors with a nearby official station and correct the cheap readings. It's the same calibration-transfer problem the Raman repo studies, applied to air.
+- **Use natural experiments.** Holidays, typhoon days and the early-2020 COVID period all changed emissions or weather. Can the satellite see the difference?
+
+**Open questions you could chase:**
+- Does satellite NO₂ match station NO₂ better in some seasons, regions or weather? Why?
+- Which large emitters show up in long-term averages, and which don't?
+- Are SO₂ or HCHO strong enough over Taiwan to measure, or mostly noise?
+- How much of the gap between satellite and ground can weather (wind, rain, mixing height) explain?
+
+**Watch out for:**
+- **Column vs surface.** The satellite measures the gas in the whole column of air above a pixel; a station measures the air at ground level. They're related, not the same.
+- **Pixels are kilometres wide.** The satellite sees cities and plants, not streets or single factories.
+- **Clouds and quality flags.** Each product has a quality value per pixel. Read the product guide and filter before you average.
+- **One overpass a day** (early afternoon) vs hourly stations. Compare like with like.
+- **Split by station.** Test on stations the model never saw, or the score will flatter you.
+- **Methane is the weak target here.** The research notes found no public satellite methane plume over Taiwan.
+
+**A solid result looks like:** a pollution map, a satellite-vs-station comparison scored on held-out stations, and an honest paragraph on where the satellite agrees with the ground and where it doesn't.
+
+### Models and data to choose from (Path D)
+
+This path is mostly tabular data, the same kind of problem as the PetFinder and shelter work. There are no Taiwan numbers in the research notes, so finding what's been published is part of the work.
+
+**Data**
+
+| Data | What it measures | Access | Notes |
+|---|---|---|---|
+| **Sentinel-5P / TROPOMI** | Gas columns: NO₂, SO₂, CO, O₃, HCHO, CH₄; aerosol index | Free, no account (Planetary Computer) | Daily, early-afternoon overpass, km-scale pixels; NetCDF files |
+| **Sentinel-3 aerosol** | Aerosol optical depth (haze/particles) | Free (Planetary Computer `sentinel-3-synergy-aod-l2-netcdf`, from 2020-04-16) | A possible route to PM2.5 |
+| **MOENV stations** | Ground-level pollutants, hourly | Free API key | The ground truth for this path |
+| **Civil IoT / AirBox** | PM2.5 from low-cost sensors, dense coverage | Check the current API | Noisier; good for calibration projects |
+| **Weather** (e.g. ERA5 reanalysis, Taiwan's Central Weather Administration) | Wind, rain, temperature, mixing height | Free; access not checked here | Often explains a lot of the satellite-ground gap |
+
+**Approaches and models**
+
+| Approach | In this repo? | Notes |
+|---|---|---|
+| **Direct comparison** (correlation, scatter plots) | No code needed | Always do this first |
+| **Linear regression** (satellite + weather → station) | scikit-learn is already a dependency | A strong, readable baseline |
+| **Random forest / gradient boosting** | scikit-learn | The tabular workhorses from the shelter project |
+| **Small neural network (MLP)** | PyTorch is already a dependency | Worth it only if it beats the trees on held-out stations |
+
+**Things to know when choosing:**
+- **This path detects chemicals in air, not waste.** It's a legitimate project in its own right, not a way to identify plastics.
+- **Group by station and by time.** Neighbouring hours and days are correlated, just like neighbouring video frames.
+- **Start simple.** If linear regression with weather gets close, that's a finding.
+
+---
+
 ## Your own path
 
 Good proposals tend to have:
@@ -194,7 +258,7 @@ Some seeds:
 - Try to get MDImageNet, a Taiwan coastal image set with 34 litter classes, and see what a richer label set changes.
 - Build a small demo: a local Gradio app that runs your best model on an uploaded photo.
 
-**Parked: chemistry.** Identifying plastics from Raman or infrared spectra needs a spectrometer and a Taiwan reference library, and we have neither. Satellites can't do it at Sentinel-2's resolution and bands. The spectra code (`configs/toy-spectra.json`, `prepare-spectra`) stays in case that changes. If you find an open Taiwan spectral dataset, that's worth raising.
+**Parked: chemistry of waste.** Identifying plastics from Raman or infrared spectra needs a spectrometer and a Taiwan reference library, and we have neither. Satellites can't do it at Sentinel-2's resolution and bands, and there are no published joint Raman + image models to borrow (the [raman-open-ml](https://github.com/JoulesSpace/raman-open-ml) repo, for example, is spectra-only). If you want chemistry without a lab, see Path D: a satellite spectrometer measuring gases in air. The spectra code (`configs/toy-spectra.json`, `prepare-spectra`) stays in case that changes. If you find an open Taiwan spectral dataset, that's worth raising.
 
 ---
 
@@ -223,4 +287,7 @@ Some seeds:
 | **Domain shift** | Deployment data looks different from training data, so the model gets worse |
 | **YOLO** | A family of fast object detectors that draw labelled boxes |
 | **mAP@0.5** | The standard detector score; a box counts as correct if it overlaps the true box by at least 50% |
-| **Group split** | Keeping everything from one flight/scene/site in a single split |
+| **Group split** | Keeping everything from one flight/scene/site/station in a single split |
+| **Sentinel-5P / TROPOMI** | A European satellite (and its spectrometer) that measures trace gases in the air |
+| **Column** | The total amount of a gas in the air above a spot, from the ground to space. What Sentinel-5P measures |
+| **NO₂ / SO₂** | Nitrogen dioxide (mainly from traffic and power plants) and sulfur dioxide (mainly from burning coal and oil) |

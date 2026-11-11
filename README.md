@@ -103,6 +103,7 @@ These are open questions. [`docs/PATHS.md`](docs/PATHS.md) has guidance for each
 - [ ] **Path A: Taiwan drone litter.** How well does a pretrained detector learn Taiwan's coastal litter from HAIDA, and what transfers?
 - [ ] **Path B: Taiwan satellite debris.** Why does the satellite model see clouds over Taiwan's sea, and can you fix it?
 - [ ] **Path C: Taiwan dump sites.** Can Taiwan's reported dump sites be seen at 10 m resolution?
+- [ ] **Path D: Taiwan air pollution.** How well does a satellite spectrometer (Sentinel-5P) match ground stations on gases like NO₂? This is chemistry without a lab.
 - [ ] **Your own path**, agreed with your instructor.
 
 ### Code
@@ -117,6 +118,7 @@ Good first contributions. Each one unblocks a path:
 - [ ] Run the published pretrained detector ([marinedebrisdetector](https://github.com/marccoru/marinedebrisdetector)) on the Taiwan crop in Kaggle (Path B)
 - [ ] Per-class precision and recall in `pixel_rf.py`'s metrics, which currently has F1 and IoU only (all paths)
 - [ ] A MADOS preparation script; `configs/marine-template.json` already expects a `mados` head (Path B, later)
+- [ ] A Sentinel-5P fetch script for Taiwan (NetCDF via `xarray`) and a MOENV station loader (Path D)
 
 ### Instructor / admin
 
@@ -137,5 +139,5 @@ Good first contributions. Each one unblocks a path:
 ## Data, licenses and limits
 
 - **Licenses:** MARIDA is CC BY 4.0 (credit Kikaki et al. 2022). MOENV data falls under the Open Government Data License (credit the source and snapshot date). HAIDA images aren't covered by the repo's MIT code license: cite the NTOU thesis and keep the images out of this repo. Other datasets: check `waste_lab/catalog.json` and `THIRD_PARTY.md` before using them.
-- **No chemistry from these inputs.** Sentinel-2 can show that something is floating, not what it's made of. A `bottle` box is a reasonable PET guess, not a measurement. Raman/spectral material ID is parked: there's no instrument and no Taiwan spectral library. The spectra code stays in case that changes.
+- **No chemistry from the waste images.** Sentinel-2 can show that something is floating, not what it's made of. A `bottle` box is a reasonable PET guess, not a measurement. Raman/spectral material ID is parked: there's no instrument and no Taiwan spectral library. The spectra code stays in case that changes. The one real chemistry route is Path D: Sentinel-5P measures gases in the air.
 - **Weak labels stay weak.** A site on the government dump list isn't a confirmed visible dump. Beach-cleanup tonnage depends on cleanup effort and isn't a pixel label.
