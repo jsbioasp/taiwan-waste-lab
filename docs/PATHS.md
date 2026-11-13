@@ -1,6 +1,6 @@
 # Research paths
 
-This project is yours to steer. Below are four paths that fit the data and tools in or around this repo, plus guidance for proposing your own. A–C are about waste; D is about chemicals in Taiwan's air. They aren't assignments, and they don't have to be done in order. Pick one, combine two, or go somewhere else if you find a better question.
+This project is yours to steer. Below are four paths that fit the data and tools in or around this repo, plus guidance for proposing your own. A–C are about detecting waste; D is about detecting chemicals: air pollution. They aren't assignments, and they don't have to be done in order. Pick one, combine two, or go somewhere else if you find a better question.
 
 **How this works:**
 - **Choose a path, or write a one-paragraph proposal for your own,** and check it with your instructor before you sink a lot of time into it.
@@ -184,7 +184,7 @@ For this path, the imagery decides more than the model. Scores marked † come f
 
 ---
 
-## Path D — Can a satellite measure Taiwan's air pollution?
+## Path D — Detecting chemicals: air pollution
 
 **The question:** the Sentinel-5P satellite carries a spectrometer (TROPOMI) that measures gases such as NO₂ and SO₂ from orbit. That's real chemical detection, with no lab. How well do its readings over Taiwan match what ground stations measure, and what can you learn from where they disagree?
 
