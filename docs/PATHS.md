@@ -1,6 +1,8 @@
 # Research paths
 
-This project is yours to steer. Below are four paths that fit the data and tools in or around this repo, plus guidance for proposing your own. A–C are about detecting waste; D is about detecting chemicals: air pollution. They aren't assignments, and they don't have to be done in order. Pick one, combine two, or go somewhere else if you find a better question.
+This project is yours to steer. Below are research paths that fit the data and tools in or around this repo, plus guidance for proposing your own. Right now, A–C are about detecting waste and D is about detecting chemicals: air pollution. New paths get added as good ideas come up. They aren't assignments, and they don't have to be done in order. Pick one, combine two, or go somewhere else if you find a better question.
+
+New terms are linked or explained where they first appear, and collected in the [glossary](#new-terms) at the bottom.
 
 **How this works:**
 - **Choose a path, or write a one-paragraph proposal for your own,** and check it with your instructor before you sink a lot of time into it.
@@ -14,11 +16,11 @@ The ground rules at the bottom apply to every path.
 
 ## Path A — Taiwan drone litter
 
-**The question:** a detector pretrained on everyday photos (COCO) knows nothing about trash on Taiwan's coast. How much can it learn from about 1,700 Taiwan drone frames, and what actually helps?
+**The question:** a detector pretrained on everyday photos ([COCO](https://cocodataset.org/), a large public dataset of labelled photos) knows nothing about trash on Taiwan's coast. How much can it learn from about 1,700 Taiwan drone frames, and what actually helps?
 
 **What's already here:**
-- HAIDA and HAIDA2 from NTOU: 1,710 frames from 18 flights, 8,037 boxes labelled `garbage` or `bottle`. Labels are Pascal VOC XML. See `LOG.md` for the full breakdown.
-- `scripts/aerial.py` (trains or predicts with YOLO) and `scripts/audit_aerial_split.py` (checks for leakage). It's set up for Ultralytics YOLO11 (`yolo11n.pt`), but other detectors, and other litter datasets to learn from, are laid out in [Models to choose from](#models-to-choose-from-path-a) below.
+- [HAIDA and HAIDA2](https://github.com/LiaoSteve/HAIDA-Trash-Dataset-High-Resolution-Aerial-image), drone photos of Taiwan's coast from [National Taiwan Ocean University](https://www.ntou.edu.tw/) (NTOU): 1,710 frames from 18 flights, 8,037 boxes labelled `garbage` or `bottle`. Labels are in Pascal VOC format (one XML file of boxes per image). See `LOG.md` for the full breakdown.
+- `scripts/aerial.py` (trains or predicts with [YOLO](https://docs.ultralytics.com/), a fast object detector) and `scripts/audit_aerial_split.py` (checks for leakage). It's set up for Ultralytics YOLO11 (`yolo11n.pt`), but other detectors, and other litter datasets to learn from, are laid out in [Models to choose from](#models-to-choose-from-path-a) below.
 - Kaggle for free GPU training.
 
 **Ways in:**
@@ -67,12 +69,12 @@ There's no single right choice. Scores marked † come from `research/land_waste
 
 ## Path B — Why does the satellite model see clouds over Taiwan's sea?
 
-**The question:** a model trained on MARIDA's satellite pixels labels most of Taiwan's cloud-free sea as "Clouds." What's different about Taiwan's water, and can you make a debris model work there?
+**The question:** a model trained on [MARIDA](https://marine-debris.github.io/) (an open benchmark of satellite pixels labelled as debris, ships, clouds, water types and so on) labels most of Taiwan's cloud-free sea as "Clouds." What's different about Taiwan's water, and can you make a debris model work there?
 
 **What's already here:**
-- `scripts/fetch_taiwan_s2.py` downloads a Sentinel-2 crop of the Ruifang/Gongliao coast. Change the box and dates to look anywhere.
+- `scripts/fetch_taiwan_s2.py` downloads a [Sentinel-2](https://sentiwiki.copernicus.eu/web/s2-mission) image (free European satellite imagery, 10 m pixels) of the Ruifang/Gongliao coast. Change the box and dates to look anywhere.
 - `scripts/pixel_rf.py` and `scripts/predict_taiwan_rf.py`: the MARIDA random forest and its Taiwan run.
-- A first clue: Taiwan's open water is about twice as bright as MARIDA's in the infrared bands (`LOG.md`, 2026-11-11). There are two suspects: sun glint, and the fact that MARIDA was processed with ACOLITE while our crop is Sen2Cor L2A.
+- A first clue: Taiwan's open water is about twice as bright as MARIDA's in the infrared bands (`LOG.md`, 2026-11-11). There are two suspects: sun glint, and the fact that MARIDA's images were corrected for the atmosphere with [ACOLITE](https://github.com/acolite/acolite) while ours are ESA's standard [Sen2Cor](https://step.esa.int/main/snap-supported-plugins/sen2cor/) product (called L2A).
 - A range of models to choose from, from a seconds-long random forest to state-of-the-art deep networks. See [Models to choose from](#models-to-choose-from-path-b) below.
 
 **Ways in:**
@@ -120,7 +122,7 @@ There's no single right choice; they trade speed, data needs and effort. Scores 
 
 ## Path C — Can you see Taiwan's dump sites from space?
 
-**The question:** MOENV publishes the locations of reported illegal dump sites. Are they actually visible in free 10 m Sentinel-2 images? If they are, they could become training labels for a Taiwan dump detector.
+**The question:** [MOENV](https://data.moenv.gov.tw/en) (Taiwan's Ministry of Environment) publishes [the locations of reported illegal dump sites](https://data.gov.tw/en/datasets/145968). Are they actually visible in free 10 m Sentinel-2 images? If they are, they could become training labels for a Taiwan dump detector.
 
 **What's already here:**
 - `data/samples/moenv-20260909/`: 491 sites as GeoJSON points, plus a blank review CSV (`site_id`, coordinates, `image_date`, `scene_id`, `waste_visible`, `confidence`, `notes`, `group`, `split`). Each record has a county and district, land-parcel numbers, waste type (`一般` general 435, `一般含有害` general with hazardous 39, `有害` hazardous 16), a last-update date, whether soil/groundwater is also regulated, and **free-text inspection notes** (`現場狀態`). There's **no size or area field**.
@@ -186,11 +188,11 @@ For this path, the imagery decides more than the model. Scores marked † come f
 
 ## Path D — Detecting chemicals: air pollution
 
-**The question:** the Sentinel-5P satellite carries a spectrometer (TROPOMI) that measures gases such as NO₂ and SO₂ from orbit. That's real chemical detection, with no lab. How well do its readings over Taiwan match what ground stations measure, and what can you learn from where they disagree?
+**The question:** the [Sentinel-5P](https://sentiwiki.copernicus.eu/web/s5p-mission) satellite carries a spectrometer ([TROPOMI](https://www.tropomi.eu/)) that measures gases such as NO₂ and SO₂ from orbit. That's real chemical detection, with no lab. How well do its readings over Taiwan match what ground stations measure, and what can you learn from where they disagree?
 
 **What's already here:**
 - No code for this path yet. It's the newest and least scaffolded path, so you'd be building it.
-- **Sentinel-5P** is free on Microsoft Planetary Computer (collection `sentinel-5p-l2-netcdf`, data from 2018-04-30). Products: `no2`, `so2`, `co`, `o3`, `hcho`, `ch4`, aerosol index and clouds. `waste_lab/taiwan.py` and `scripts/fetch_taiwan_s2.py` show the search-and-download pattern. The files are NetCDF, so you'll need `pip install xarray netCDF4`.
+- **Sentinel-5P** is free on [Microsoft Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-5p-l2-netcdf) (collection `sentinel-5p-l2-netcdf`, data from 2018-04-30). Products: `no2`, `so2`, `co`, `o3`, `hcho`, `ch4`, aerosol index and clouds. `waste_lab/taiwan.py` and `scripts/fetch_taiwan_s2.py` show the search-and-download pattern. The files are [NetCDF](https://unidata.ucar.edu/software/netcdf/) (a common format for gridded science data), so you'll need `pip install xarray netCDF4`.
 - **MOENV ground stations:** MOENV's open-data API serves air-quality data (e.g. dataset `aqx_p_432`, real-time AQI) and needs a free API key; keep the key in an environment variable, never in Git. Find the hourly historical dataset on MOENV's data portal. The research notes also list an hourly NMHC dataset (data.gov.tw 34829).
 - **Low-cost sensors:** Taiwan's Civil IoT / AirBox network has thousands of cheap PM2.5 sensors. The API address in the research trail served a certificate for the wrong hostname, so find the current one on Civil IoT Taiwan's site.
 
@@ -291,3 +293,11 @@ Some seeds:
 | **Sentinel-5P / TROPOMI** | A European satellite (and its spectrometer) that measures trace gases in the air |
 | **Column** | The total amount of a gas in the air above a spot, from the ground to space. What Sentinel-5P measures |
 | **NO₂ / SO₂** | Nitrogen dioxide (mainly from traffic and power plants) and sulfur dioxide (mainly from burning coal and oil) |
+| **MOENV** | [Taiwan's Ministry of Environment](https://data.moenv.gov.tw/en); publishes the dump-site list and runs the air-quality stations |
+| **COCO** | [A large public dataset of everyday photos](https://cocodataset.org/); most detectors start from COCO-pretrained weights |
+| **Pascal VOC** | A common box-label format: one XML file per image listing each box and its class |
+| **ACOLITE / Sen2Cor (L2A)** | Two programs that correct satellite images for the atmosphere. [ACOLITE](https://github.com/acolite/acolite) is made for water; [Sen2Cor](https://step.esa.int/main/snap-supported-plugins/sen2cor/) produces ESA's standard Sentinel-2 "L2A" product |
+| **F1 / macro-F1** | [F1](https://en.wikipedia.org/wiki/F-score) balances missed detections against false alarms; macro-F1 averages it over all classes |
+| **UNet / UNet++** | Deep networks that label every pixel of an image (segmentation); UNet++ is a larger variant |
+| **NetCDF** | [A common file format for gridded science data](https://unidata.ucar.edu/software/netcdf/), used by Sentinel-5P |
+| **Kaggle / Colab** | Free hosted notebooks with GPUs: [Kaggle](https://www.kaggle.com/), [Colab](https://colab.research.google.com/) |
