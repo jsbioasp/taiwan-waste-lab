@@ -2,7 +2,7 @@
 
 This project is yours to steer. Below are research paths that fit the data and tools in or around this repo, plus guidance for proposing your own. Right now, A–C are about detecting waste and D is about detecting chemicals: air pollution. New paths get added as good ideas come up. They aren't assignments, and they don't have to be done in order. Pick one, combine two, or go somewhere else if you find a better question.
 
-New terms are linked or explained where they first appear, and collected in the [glossary](#new-terms) at the bottom.
+New terms are linked or explained where they first appear, and collected in the [glossary](#new-terms) at the bottom. If you haven't done the [four weeks of prep](PREREQS.md) yet, start there.
 
 **How this works:**
 - **Choose a path, or write a one-paragraph proposal for your own,** and check it with your instructor before you sink a lot of time into it.

@@ -31,6 +31,8 @@ python -m unittest discover -s tests -v             # 8 tests should pass
 
 For Kaggle and Colab (GPU, uploading data, saving outputs), see [`docs/STUDENT_START.md`](docs/STUDENT_START.md). Keep a [research log](docs/LOG.md) as you go.
 
+**Before the paths:** [four weeks of prep](docs/PREREQS.md) covering transfer learning, how object detectors work and are scored, training a real detector, and segmentation (or gridded data for Path D). It links free courses, tutorials and a small project each week.
+
 ---
 
 ## Path A — Drone litter (HAIDA)
@@ -269,6 +271,7 @@ The spectra code (`prepare-spectra`, `configs/toy-spectra.json`, the 1-D CNN and
 
 | File | Read it when |
 |---|---|
+| [`docs/PREREQS.md`](docs/PREREQS.md) | You're starting out: four weeks of prep with linked courses, tutorials and mini-projects |
 | [`docs/PATHS.md`](docs/PATHS.md) | You're choosing a path: ways in, open questions, model menus, ground rules, glossary |
 | [`docs/LOG.md`](docs/LOG.md) | You want to know what's been tried. Add to it as you go. |
 | [`docs/STUDENT_START.md`](docs/STUDENT_START.md) | You're setting up Kaggle, Colab or your laptop |
