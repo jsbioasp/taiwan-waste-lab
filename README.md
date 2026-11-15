@@ -4,7 +4,7 @@ A student research repo with two goals in Taiwan: **detecting waste**, and **det
 
 This is a research starter, not finished software. The code that's here runs and is tested. Nothing in it has yet been shown to work on Taiwan; finding out what does is the project. The work is organized into **research paths**. Pick one, combine them, or propose your own; new paths get added as good ideas come up. [`docs/PATHS.md`](docs/PATHS.md) has guidance for each path and a [glossary](docs/PATHS.md#new-terms). Terms in this README are linked or explained where they first appear.
 
-**New here? Start with the [self-study prep](#self-study-prep-do-this-first)**, four weeks of free courses and small projects, then pick a path.
+**New here?** Pick a path, then do its [prep week](#self-study-prep-one-week-per-path): a lecture, a guided tutorial and a small project.
 
 ## Research paths
 
@@ -23,17 +23,18 @@ This is a research starter, not finished software. The code that's here runs and
 
 **D. Detecting chemicals: air pollution.** [Sentinel-5P](https://sentiwiki.copernicus.eu/web/s5p-mission) is a European satellite carrying [TROPOMI](https://www.tropomi.eu/), a spectrometer that identifies gases by the way they absorb sunlight. Examples are nitrogen dioxide (NO₂, mostly from traffic and power plants) and sulfur dioxide (SO₂, from burning coal and oil). MOENV runs ground stations to check it against. This is the one path with real chemical detection, and it's mostly tabular modelling, like the shelter project.
 
-## Self-study prep (do this first)
+## Self-study prep: one week per path
 
-The course covered image classification, CNNs and pretrained models. The paths also need **object detection**, **segmentation** and **honest evaluation**. [`docs/PREREQS.md`](docs/PREREQS.md) fills that gap in about four weeks (roughly 10 hours a week). Each week has lectures to watch, a guided assignment and a small project, all linked.
+The course covered image classification, CNNs and pretrained models. Each path needs one more skill on top of that. [`docs/PREREQS.md`](docs/PREREQS.md) gives each path one week of prep (8–10 hours): a lecture or two, a guided tutorial and a small project. Do your own path's week; the others are optional.
 
-| Week | Focus | Project | Gets you ready for |
+| Path | Skill you'll learn | Prep project | Free Kaggle / Colab? |
 |---|---|---|---|
-| [Day 0](docs/PREREQS.md#day-0-optional-refresher) (optional) | CNN refresher | Re-run your course CNN notebooks | — |
-| [Week 1](docs/PREREQS.md#week-1--transfer-learning-done-fairly) | Transfer learning, done fairly | Land-cover classifier on [EuroSAT](https://github.com/phelber/eurosat) Sentinel-2 patches: from scratch vs frozen vs fine-tuned | Paths B and C |
-| [Week 2](docs/PREREQS.md#week-2--how-detectors-work-and-how-theyre-scored) | How detectors work and how they're scored | Your own IoU and NMS, checked against torchvision, plus a note on how detection scores mislead | Path A |
-| [Week 3](docs/PREREQS.md#week-3--train-a-real-detector) | Train a real detector | YOLO drone-litter detector on [UAVVaste](https://uavvaste.github.io/), with error analysis | Path A |
-| [Week 4](docs/PREREQS.md#week-4--pick-by-path) | Segmentation, *or* gridded data | U-Net on MARIDA, *or* a Sentinel-5P NO₂ map of Taiwan | Path B, *or* Path D |
+| [A. Drone litter](docs/PREREQS.md#path-a-prep--object-detection) | Object detection | A YOLO litter detector on [UAVVaste](https://uavvaste.github.io/) drone photos | Both work (GPU) |
+| [B. Satellite debris](docs/PREREQS.md#path-b-prep--segmentation) | Segmentation | A U-Net on MARIDA satellite patches | Both work (GPU) |
+| [C. Dump sites](docs/PREREQS.md#path-c-prep--transfer-learning-on-image-patches) | Transfer learning on image patches | A land-cover classifier on [EuroSAT](https://github.com/phelber/eurosat) Sentinel-2 patches | Both work (GPU helps) |
+| [D. Detecting chemicals: air pollution](docs/PREREQS.md#path-d-prep--gridded-data-and-tabular-models) | Gridded data and tabular models | An NO₂ map of Taiwan from Sentinel-5P | Both work (CPU is enough) |
+
+Which one to use and why: [Free compute: Kaggle or Colab](docs/PREREQS.md#free-compute-kaggle-or-colab).
 
 Main resources: [Learn PyTorch](https://www.learnpytorch.io/), the [EECS 498 lecture videos](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r), [CS231n](https://cs231n.stanford.edu/), the [PyTorch tutorials](https://pytorch.org/tutorials/) and the [Ultralytics docs](https://docs.ultralytics.com/).
 
@@ -239,6 +240,7 @@ To download a file, request a read token from `https://planetarycomputer.microso
 | `data/raw/`, `data/processed/`, `runs/` | Git-ignored: downloads, prepared data, run outputs |
 | `tests/` | 8 unit tests |
 | `notebooks/hosted-starter.ipynb` | A thin Colab/Kaggle launcher |
+| [`course-notebooks/`](course-notebooks/README.md) | 23 notebooks from the AI & Python course that the prep weeks point back to, each with an Open-in-Colab link (M05/M06 ones need the course data bundles) |
 | `docs/` | Paths, log, setup, dataset notes, validation record (see [Docs](#docs)) |
 | `research/` | The original research notes. Useful leads, but **unverified** (see `research/README.md`) |
 
@@ -284,7 +286,7 @@ The spectra code (`prepare-spectra`, `configs/toy-spectra.json`, the 1-D CNN and
 
 | File | Read it when |
 |---|---|
-| [`docs/PREREQS.md`](docs/PREREQS.md) | You're starting out: four weeks of prep with linked courses, tutorials and mini-projects |
+| [`docs/PREREQS.md`](docs/PREREQS.md) | You've picked a path: one week of prep for it, with linked lectures, a tutorial and a small project |
 | [`docs/PATHS.md`](docs/PATHS.md) | You're choosing a path: ways in, open questions, model menus, ground rules, glossary |
 | [`docs/LOG.md`](docs/LOG.md) | You want to know what's been tried. Add to it as you go. |
 | [`docs/STUDENT_START.md`](docs/STUDENT_START.md) | You're setting up Kaggle, Colab or your laptop |

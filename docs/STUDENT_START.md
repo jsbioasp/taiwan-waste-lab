@@ -1,6 +1,6 @@
 # Setup
 
-Getting the repo running on Kaggle (the main GPU environment), Colab or your laptop. When it works, do the [four weeks of prep](PREREQS.md), then head to [`PATHS.md`](PATHS.md) to pick what to work on.
+Getting the repo running on Kaggle (the main GPU environment), Colab or your laptop. When it works, pick a path in [`PATHS.md`](PATHS.md) and do its [prep week](PREREQS.md).
 
 ## Laptop (CPU)
 

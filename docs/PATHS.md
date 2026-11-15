@@ -2,7 +2,7 @@
 
 This project is yours to steer. Below are research paths that fit the data and tools in or around this repo, plus guidance for proposing your own. Right now, A–C are about detecting waste and D is about detecting chemicals: air pollution. New paths get added as good ideas come up. They aren't assignments, and they don't have to be done in order. Pick one, combine two, or go somewhere else if you find a better question.
 
-New terms are linked or explained where they first appear, and collected in the [glossary](#new-terms) at the bottom. If you haven't done the [four weeks of prep](PREREQS.md) yet, start there.
+New terms are linked or explained where they first appear, and collected in the [glossary](#new-terms) at the bottom. Each path has a one-week [prep plan](PREREQS.md); do your path's week before you dive in.
 
 **How this works:**
 - **Choose a path, or write a one-paragraph proposal for your own,** and check it with your instructor before you sink a lot of time into it.
@@ -17,6 +17,8 @@ The ground rules at the bottom apply to every path.
 ## Path A — Taiwan drone litter
 
 **The question:** a detector pretrained on everyday photos ([COCO](https://cocodataset.org/), a large public dataset of labelled photos) knows nothing about trash on Taiwan's coast. How much can it learn from about 1,700 Taiwan drone frames, and what actually helps?
+
+**Prep:** [one week on object detection](PREREQS.md#path-a-prep--object-detection)
 
 **What's already here:**
 - [HAIDA and HAIDA2](https://github.com/LiaoSteve/HAIDA-Trash-Dataset-High-Resolution-Aerial-image), drone photos of Taiwan's coast from [National Taiwan Ocean University](https://www.ntou.edu.tw/) (NTOU): 1,710 frames from 18 flights, 8,037 boxes labelled `garbage` or `bottle`. Labels are in Pascal VOC format (one XML file of boxes per image). See `LOG.md` for the full breakdown.
@@ -71,6 +73,8 @@ There's no single right choice. Scores marked † come from `research/land_waste
 
 **The question:** a model trained on [MARIDA](https://marine-debris.github.io/) (an open benchmark of satellite pixels labelled as debris, ships, clouds, water types and so on) labels most of Taiwan's cloud-free sea as "Clouds." What's different about Taiwan's water, and can you make a debris model work there?
 
+**Prep:** [one week on segmentation](PREREQS.md#path-b-prep--segmentation)
+
 **What's already here:**
 - `scripts/fetch_taiwan_s2.py` downloads a [Sentinel-2](https://sentiwiki.copernicus.eu/web/s2-mission) image (free European satellite imagery, 10 m pixels) of the Ruifang/Gongliao coast. Change the box and dates to look anywhere.
 - `scripts/pixel_rf.py` and `scripts/predict_taiwan_rf.py`: the MARIDA random forest and its Taiwan run.
@@ -123,6 +127,8 @@ There's no single right choice; they trade speed, data needs and effort. Scores 
 ## Path C — Can you see Taiwan's dump sites from space?
 
 **The question:** [MOENV](https://data.moenv.gov.tw/en) (Taiwan's Ministry of Environment) publishes [the locations of reported illegal dump sites](https://data.gov.tw/en/datasets/145968). Are they actually visible in free 10 m Sentinel-2 images? If they are, they could become training labels for a Taiwan dump detector.
+
+**Prep:** [one week on transfer learning with image patches](PREREQS.md#path-c-prep--transfer-learning-on-image-patches)
 
 **What's already here:**
 - `data/samples/moenv-20260909/`: 491 sites as GeoJSON points, plus a blank review CSV (`site_id`, coordinates, `image_date`, `scene_id`, `waste_visible`, `confidence`, `notes`, `group`, `split`). Each record has a county and district, land-parcel numbers, waste type (`一般` general 435, `一般含有害` general with hazardous 39, `有害` hazardous 16), a last-update date, whether soil/groundwater is also regulated, and **free-text inspection notes** (`現場狀態`). There's **no size or area field**.
@@ -189,6 +195,8 @@ For this path, the imagery decides more than the model. Scores marked † come f
 ## Path D — Detecting chemicals: air pollution
 
 **The question:** the [Sentinel-5P](https://sentiwiki.copernicus.eu/web/s5p-mission) satellite carries a spectrometer ([TROPOMI](https://www.tropomi.eu/)) that measures gases such as NO₂ and SO₂ from orbit. That's real chemical detection, with no lab. How well do its readings over Taiwan match what ground stations measure, and what can you learn from where they disagree?
+
+**Prep:** [one week on gridded data and tabular models](PREREQS.md#path-d-prep--gridded-data-and-tabular-models)
 
 **What's already here:**
 - No code for this path yet. It's the newest and least scaffolded path, so you'd be building it.

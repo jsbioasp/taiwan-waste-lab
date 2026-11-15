@@ -1,199 +1,180 @@
-# Prep: four weeks before the research paths
+# Prep: one week for your path
 
-The course gave you image classification, CNNs and pretrained models. The research paths need three more things: **object detection** (drawing boxes around things), **segmentation** (labelling every pixel), and **honest evaluation** (scores you can trust). These four weeks fill that gap, using free courses, tutorials and small projects. Each project uses data close to what the paths use.
+The course covered image classification, CNNs and pretrained models. Each research path needs one more skill on top of that. Pick your path below and spend about a week (8–10 hours) on its prep. You don't need the other paths' weeks, though you're welcome to do more than one.
 
-Plan on about **10 hours a week**. Go in order if you can, but it's your call: Week 4 has two options, depending on which path you're leaning toward. New terms are linked or explained where they first appear; the [glossary](PATHS.md#new-terms) has the rest.
+Each week has the same parts:
+- **From your course notebooks:** the course notebooks that cover the background. Copies are in [`course-notebooks/`](../course-notebooks/README.md) and open straight in Colab; review the ones that feel rusty. The M05/M06 ones need the course data bundles from your instructor
+- **Learn:** a lecture or two and some reading
+- **Practice:** a guided tutorial with a known right answer
+- **Build:** a small project of your own, with a short README
+- **Done when:** the checklist for moving on to the path
 
-**Each week has the same four parts:**
-- **Learn:** lectures and reading (about 3 h)
-- **Practice:** a guided tutorial or exercise set, an "assignment" with a known right answer (about 3 h)
-- **Build:** a small project of your own, written up in a short README (about 4 h)
-- **Done when:** the checklist for moving on
+When you finish, add an entry to [`LOG.md`](LOG.md): what you built, your numbers, and one thing that confused you. New terms are linked where they first appear; the [glossary](PATHS.md#new-terms) has the rest.
 
-At the end of each week, add an entry to [`LOG.md`](LOG.md): what you built, your numbers, and one thing that confused you.
+| Path | Skill you'll learn | Prep project | Free Kaggle / Colab? |
+|---|---|---|---|
+| [A. Drone litter](#path-a-prep--object-detection) | Object detection (drawing boxes around things) | A YOLO litter detector on drone photos | **Both work.** Needs a GPU |
+| [B. Satellite debris](#path-b-prep--segmentation) | Segmentation (labelling every pixel) | A U-Net on MARIDA satellite patches | **Both work.** Needs a GPU |
+| [C. Dump sites](#path-c-prep--transfer-learning-on-image-patches) | Transfer learning on image patches | A land-cover classifier on Sentinel-2 patches | **Both work.** A GPU helps; the data is small |
+| [D. Detecting chemicals: air pollution](#path-d-prep--gridded-data-and-tabular-models) | Gridded data and tabular models | An NO₂ map of Taiwan | **Both work.** CPU is enough, and so is a laptop |
 
-**Main resources:**
+**Rusty on CNNs?** Before your week, re-run your course notebooks [**M04-lab2**](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-lab2_build_a_cnn.ipynb) (build a CNN) and [**M04-lab3**](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-lab3_cnn_experiments.ipynb), or work through [Learn PyTorch 03](https://www.learnpytorch.io/03_pytorch_computer_vision/).
 
-| Resource | What it's for |
-|---|---|
-| [Learn PyTorch (Zero to Mastery)](https://www.learnpytorch.io/) | Free online PyTorch book. Chapters 03–06 (each ends with exercises) and 09 are used here |
-| [EECS 498 "Deep Learning for Computer Vision" lectures](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r) (Justin Johnson, University of Michigan) | Clear, thorough lecture videos. The course website is offline now; the videos are still up |
-| [CS231n](https://cs231n.stanford.edu/) (Stanford) and its [course notes](https://cs231n.github.io/) | A second explanation when a lecture doesn't click |
-| [PyTorch tutorials](https://pytorch.org/tutorials/) | Official step-by-step notebooks |
-| [Ultralytics docs](https://docs.ultralytics.com/) | Training and evaluating YOLO detectors |
-| [Kaggle](https://www.kaggle.com/) or [Colab](https://colab.research.google.com/) | Free GPUs (setup in [`STUDENT_START.md`](STUDENT_START.md)) |
+## Free compute: Kaggle or Colab
+
+Every prep week runs on either a free [Kaggle](https://www.kaggle.com/) account or free [Google Colab](https://colab.research.google.com/). Setup for both is in [`STUDENT_START.md`](STUDENT_START.md).
+
+| | Kaggle (free) | Colab (free) |
+|---|---|---|
+| GPU | A weekly GPU allowance, commonly reported as about 30 hours. Your account settings show yours | Available when Google has spare capacity; Colab says resources are "not guaranteed" and limits "fluctuate" ([Colab FAQ](https://research.google.com/colaboratory/faq.html)) |
+| How long a session lasts | Reports say 9–12 hours per session | "At most 12 hours, depending on availability"; idle sessions are shut down |
+| Keeping your files | Upload data as a private Kaggle Dataset; save a notebook version to keep its outputs | Everything is wiped when the session ends; save data and checkpoints to Google Drive |
+| Internet (to install packages and download data) | Switch it on in notebook settings (may need phone verification) | On by default |
+
+**Rule of thumb:** use Kaggle for longer GPU training runs, because its weekly hours are predictable. Use Colab for quick experiments, or when you've used up Kaggle's hours. On either one, save checkpoints so a disconnect doesn't cost you the run.
 
 ---
 
-## Day 0 (optional): refresher
+## Path A prep — Object detection
 
-If CNNs feel rusty, spend a day here first; otherwise skip it. You've done this before in the course.
-- Re-run your course notebooks **M04-lab2** (build a CNN) and **M04-lab3** (CNN experiments), or
-- Work through [Learn PyTorch 03: Computer Vision](https://www.learnpytorch.io/03_pytorch_computer_vision/) (a small CNN on FashionMNIST).
-- Want depth instead of speed? [CS231n Assignment #2](https://cs231n.github.io/assignments2026/assignment2/) has you write batch norm, dropout and convolutional layers yourself. It's optional and takes much longer than a day.
+**Compute:** Kaggle or Colab, both with a GPU (training YOLO on a CPU is too slow). The dataset is 3 GB. On Kaggle, upload it once as a private Dataset. On Colab, keep it in Google Drive so you don't re-download it every session.
 
----
-
-## Week 1 — Transfer learning, done fairly
-
-**Why:** every path starts from a model someone else trained. This week is about doing that well, and proving with a fair comparison that it actually helped.
+**From your course notebooks**
+- [`M04-4_pretrained_models`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-4_pretrained_models.ipynb): starting from pretrained weights, which is how YOLO training starts too
+- [`M04-deep_transfer_learning`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-deep_transfer_learning.ipynb): fine-tuning a pretrained model, frozen vs fully trained
+- [`M04-deep_data_augmentation`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-deep_data_augmentation.ipynb): YOLO relies heavily on augmentation
+- [`M02-6_evaluation`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M02-6_evaluation.ipynb): precision, recall and F1, the building blocks of mAP
+- [`M03-lab3_mnist_evaluation`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M03-lab3_mnist_evaluation.ipynb): digging into the mistakes, which is practice for your 10-failure analysis
+- [`M05-lab5_audit_your_model`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M05-lab5_audit_your_model.ipynb): group-aware splits and leakage, or why images of the same place stay together
 
 **Learn**
-- [Learn PyTorch 04: Custom Datasets](https://www.learnpytorch.io/04_pytorch_custom_datasets/), [05: Going Modular](https://www.learnpytorch.io/05_pytorch_going_modular/), [06: Transfer Learning](https://www.learnpytorch.io/06_pytorch_transfer_learning/)
-- EECS 498 Lecture 8 (CNN Architectures) and Lecture 11 (Training Neural Networks II), from the [playlist](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r)
-- CS231n notes: [Transfer Learning](https://cs231n.github.io/transfer-learning/)
-- Andrej Karpathy, [A Recipe for Training Neural Networks](https://karpathy.github.io/2019/04/25/recipe/): practical habits worth copying
-- Optional: [fast.ai Lesson 1](https://course.fast.ai/Lessons/lesson1.html), a top-down, practitioner's view of fine-tuning
+- EECS 498 *Lecture 15: Object Detection*, from Justin Johnson's [Deep Learning for Computer Vision lectures](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r) (University of Michigan)
+- Ultralytics: [YOLO performance metrics](https://docs.ultralytics.com/guides/yolo-performance-metrics/): what IoU (box overlap), precision, recall and mAP mean
 
 **Practice**
-- PyTorch tutorial: [Transfer Learning for Computer Vision](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html). Compare fine-tuning the whole network with freezing it and training only the last layer.
-- The exercises at the end of Learn PyTorch 06.
-- [timm](https://huggingface.co/docs/timm/index), a big library of pretrained image models: find a ResNet with `timm.list_models`, load it with `timm.create_model(..., pretrained=True)`, and use the matching image preprocessing.
-
-**Build: a land-cover classifier from Sentinel-2 images**
-
-[EuroSAT](https://github.com/phelber/eurosat) has 27,000 small [Sentinel-2](https://sentiwiki.copernicus.eu/web/s2-mission) image patches in 10 land-cover classes (forest, river, industrial …). torchvision can download it for you ([`torchvision.datasets.EuroSAT`](https://pytorch.org/vision/stable/generated/torchvision.datasets.EuroSAT.html), RGB version). It's the same satellite Paths B and C use.
-
-Train three models on **one fixed train/val/test split**:
-1. a small CNN from scratch
-2. a pretrained ResNet with its backbone **frozen** (only the last layer trains)
-3. the same ResNet, **fully fine-tuned**
-
-Report accuracy and macro-F1 on the test set, each with a 95% interval: for accuracy *p* on *n* test images, *p* ± 1.96·√(*p*(1−*p*)/*n*). Include a confusion matrix for the best model and one paragraph on whether pretraining was worth it here.
-
-**Done when**
-- [ ] Three runs on one split, results table with intervals
-- [ ] Test set used once, at the end, after choosing settings on validation
-- [ ] Log entry written
-
----
-
-## Week 2 — How detectors work, and how they're scored
-
-**Why:** Path A is a detection problem, and detection scores are easy to misread. Understand the metric before you trust a number.
-
-**Learn**
-- EECS 498 Lecture 15 (Object Detection) and Lecture 16 (Detection and Segmentation), from the [playlist](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r)
-- Or CS231n's lecture on object detection and image segmentation (slides on the [schedule page](https://cs231n.stanford.edu/schedule.html))
-- Ultralytics: [YOLO performance metrics](https://docs.ultralytics.com/guides/yolo-performance-metrics/): IoU, precision, recall and mAP explained
-
-**Practice**
-- PyTorch tutorial: [TorchVision Object Detection Finetuning](https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html). Fine-tune Faster R-CNN, a classic two-stage detector, on a small pedestrian dataset (Penn-Fudan).
-- Write your own **IoU** (how much two boxes overlap) and **NMS** (removing duplicate boxes for the same object). Check them against [`torchvision.ops.box_iou`](https://pytorch.org/vision/stable/generated/torchvision.ops.box_iou.html) and [`torchvision.ops.nms`](https://pytorch.org/vision/stable/generated/torchvision.ops.nms.html) on random boxes.
-- On paper, no calculus:
-  - the IoU of two boxes
-  - NMS on 5 overlapping boxes at an IoU threshold of 0.5
-  - the precision-recall curve and average precision for 10 ranked detections against 6 true objects
-  - why mAP@0.5:0.95 rewards tighter boxes than mAP@0.5
-
-**Build: "How a detector's score can mislead you"**
-
-A one-page note in your own words, covering:
-- near-duplicate video frames leaking between train and test (and why you split by flight)
-- small objects
-- what changes between mAP@0.5 and mAP@0.5:0.95
-- a score that looks good overall but is bad for the class you care about
-
-You'll reuse this in Path A.
-
-**Done when**
-- [ ] Faster R-CNN tutorial runs end to end
-- [ ] Your IoU and NMS match torchvision
-- [ ] Paper exercises done; the one-page note written
-- [ ] Log entry written
-
----
-
-## Week 3 — Train a real detector
-
-**Why:** this is a dress rehearsal for Path A: aerial litter, tiny objects, Kaggle GPU, honest evaluation.
-
-**Learn**
-- Ultralytics docs: [Quickstart](https://docs.ultralytics.com/quickstart/), [Train](https://docs.ultralytics.com/modes/train/), [Val](https://docs.ultralytics.com/modes/val/), [Predict](https://docs.ultralytics.com/modes/predict/), [Export](https://docs.ultralytics.com/modes/export/)
-- [SAHI tiled inference](https://docs.ultralytics.com/guides/sahi-tiled-inference/): cutting big images into tiles so small objects stay visible
-- How YOLO datasets are laid out: [Ultralytics detection datasets](https://docs.ultralytics.com/datasets/detect/)
-
-**Practice**
-- Run a pretrained YOLO model on a few of your own photos and read the boxes it outputs.
+- Ultralytics [Quickstart](https://docs.ultralytics.com/quickstart/): run a pretrained YOLO on a few of your own photos.
+- Ultralytics [Train mode](https://docs.ultralytics.com/modes/train/): train on the tiny `coco8` dataset to see the whole loop work.
 
 **Build: a drone litter detector**
 
-Use [UAVVaste](https://uavvaste.github.io/) ([GitHub](https://github.com/UAVVaste/UAVVaste)): 772 drone images with 3,718 litter annotations in COCO format, which you'll convert to YOLO's format. The repo's code is Apache-2.0; check the dataset's own terms and note them in your README. An aerial-trash dataset from [Roboflow Universe](https://universe.roboflow.com/) also works, with its license noted.
-1. Split the data. If images come from the same place or flight, keep them together, and write down how you split.
-2. Do a 5-epoch smoke test, then a full run until validation mAP stops improving.
-3. Report mAP@0.5, mAP@0.5:0.95 and per-class AP. Explain the precision-recall curve Ultralytics draws, in your own words.
-4. Collect 10 failures (misses, false alarms, bad boxes) and sort them by cause: small object, occlusion, look-alike, label error …
-5. Run it on 20 of your own photos and say honestly how it does.
-6. Optional: try SAHI tiling on your worst small-object failures; export to ONNX.
+[UAVVaste](https://uavvaste.github.io/) ([GitHub](https://github.com/UAVVaste/UAVVaste)) has 772 drone images with 3,718 litter boxes in COCO format; convert them to YOLO's format. It's CC BY 4.0 on [Zenodo](https://zenodo.org/records/8214061) (a 3 GB zip), so credit the authors in your README.
+1. Split into train/val/test. Keep images from the same place together if you can tell, and write down how you split.
+2. Train a small YOLO model until validation mAP stops improving.
+3. Report mAP@0.5 and mAP@0.5:0.95.
+4. Collect 10 failures and sort them by cause: tiny object, look-alike, missed, bad box …
+5. Try it on 20 photos you took yourself, and say honestly how it does.
 
 **Done when**
-- [ ] Trained detector with a metrics table and the PR curve explained
+- [ ] Trained detector with a metrics table
 - [ ] 10-failure error analysis and the own-photo test
 - [ ] Log entry written
 
 ---
 
-## Week 4 — Pick by path
+## Path B prep — Segmentation
 
-### Option 1: Segmentation with U-Net (Path B; useful for A and C too)
+**Compute:** Kaggle or Colab, both with a GPU. MARIDA is a 1.16 GB download. On Kaggle, upload it as a private Dataset or switch on Internet and download it. On Colab, keep it in Google Drive.
 
-**Why:** MARIDA, Path B's dataset, labels every pixel, and the published debris model is a U-Net variant.
+**From your course notebooks**
+- [`M04-2_cnn_building_blocks`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-2_cnn_building_blocks.ipynb): convolution and pooling, the U-Net's encoder half
+- [`M04-3_cnn_architectures`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-3_cnn_architectures.ipynb): ResNet's skip connections; U-Net uses skip connections too
+- [`M05-4_meet_aac`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M05-4_meet_aac.ipynb) and [`M05-lab4_cross_dataset`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M05-lab4_cross_dataset.ipynb): a model that fails on a second dataset, the same problem as MARIDA → Taiwan
+- [`M06-3_multitask_with_photos`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M06-3_multitask_with_photos.ipynb) and [`M06-lab2_multitask_handson`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M06-lab2_multitask_handson.ipynb): a shared trunk with separate heads and an auxiliary target, the design behind this repo's `SmallModel`
+- [`M02-6_evaluation`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M02-6_evaluation.ipynb): per-class precision, recall and F1, for comparing your U-Net with the random forest
 
 **Learn**
-- The [U-Net paper](https://arxiv.org/abs/1505.04597) (Ronneberger et al. 2015). Read the introduction and study Figure 1; skip the rest.
-- The segmentation half of EECS 498 Lecture 16
-- [segmentation_models_pytorch](https://smp.readthedocs.io/en/latest/) docs ([GitHub](https://github.com/qubvel-org/segmentation_models.pytorch)), especially the [losses page](https://smp.readthedocs.io/en/latest/losses.html) (Dice loss)
+- EECS 498 *Lecture 16: Detection and Segmentation* (the segmentation part), from the [lecture playlist](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r)
+- The [U-Net paper](https://arxiv.org/abs/1505.04597): read the introduction and study Figure 1; skip the rest.
+- [segmentation_models_pytorch](https://smp.readthedocs.io/en/latest/) docs, especially the [losses page](https://smp.readthedocs.io/en/latest/losses.html) (Dice loss)
 
 **Practice**
 - Build a U-Net with segmentation_models_pytorch in a few lines and train it on a toy batch.
-- Read MARIDA's own U-Net baseline code in the [marine-debris repo](https://github.com/marine-debris/marine-debris.github.io) (`semantic_segmentation/unet/`).
+- Skim MARIDA's own U-Net code in the [marine-debris repo](https://github.com/marine-debris/marine-debris.github.io) (`semantic_segmentation/unet/`).
 
 **Build: a U-Net on MARIDA**
 
-Get MARIDA with this repo's `scripts/fetch_starter_data.py` and `scripts/prepare_marida.py` (Path B in the [README](../README.md#path-b--satellite-debris-sentinel-2)).
-- The input has 11 bands, not 3, so check how your U-Net handles extra input channels.
+Get [MARIDA](https://marine-debris.github.io/) with this repo's `scripts/fetch_starter_data.py` and `scripts/prepare_marida.py` (see [Path B in the README](../README.md#path-b--satellite-debris-sentinel-2)).
+- The input has 11 bands, not 3, so check how your U-Net handles that.
 - Ignore unlabelled pixels (`-1`).
 - Try Dice + cross-entropy loss.
-- Compare per-class F1, especially Marine Debris, with the repo's random-forest baseline (test macro-F1 0.50, debris F1 0.69). Remember that debris is a tiny fraction of the pixels.
+- Compare per-class F1, especially Marine Debris, with the repo's random forest (test macro-F1 0.50, debris F1 0.69).
 
 **Done when**
-- [ ] U-Net trained on the official split, per-class F1 table next to the random forest's
-- [ ] One paragraph: did the deep model beat the baseline, and on which classes?
+- [ ] U-Net trained on the official split, per-class F1 next to the random forest's
+- [ ] One paragraph: did it beat the baseline, and on which classes?
 - [ ] Log entry written
 
-### Option 2: Gridded data and tabular models (Path D)
+---
 
-**Why:** Path D is about satellite gas measurements and station data, more like the shelter project than like image work.
+## Path C prep — Transfer learning on image patches
+
+**Compute:** Kaggle or Colab. EuroSAT is only 94 MB and torchvision downloads it in seconds, so either is easy. A GPU makes fine-tuning take minutes instead of a long wait; the from-scratch CNN is fine on CPU.
+
+**From your course notebooks**
+- [`M04-lab2_build_a_cnn`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-lab2_build_a_cnn.ipynb) and [`M04-lab3_cnn_experiments`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-lab3_cnn_experiments.ipynb): your from-scratch CNN (run 1 below)
+- [`M04-4_pretrained_models`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-4_pretrained_models.ipynb) and [`M04-lab4_pretrained_features`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-lab4_pretrained_features.ipynb): pretrained models and what their feature maps show
+- [`M04-deep_transfer_learning`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-deep_transfer_learning.ipynb): freezing vs fine-tuning (runs 2 and 3 below)
+- [`M04-deep_data_augmentation`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M04-deep_data_augmentation.ipynb): augmentation for small image datasets
+- [`M06-1_photos_and_adoption`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M06-1_photos_and_adoption.ipynb) and [`M06-lab1_photo_features`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M06-lab1_photo_features.ipynb): using a pretrained CNN's features as inputs to another model, a handy shortcut for dump-site image chips later
 
 **Learn**
-- The [xarray tutorial](https://tutorial.xarray.dev/): working with gridded data like NetCDF files ([xarray docs](https://docs.xarray.dev/en/stable/))
-- scikit-learn [`GroupKFold`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupKFold.html): keeping each group (here, each station) in one fold
+- [Learn PyTorch 06: Transfer Learning](https://www.learnpytorch.io/06_pytorch_transfer_learning/)
+- CS231n notes: [Transfer Learning](https://cs231n.github.io/transfer-learning/)
 
 **Practice**
-- Find a Sentinel-5P NO₂ file with the snippet in the [README's Path D](../README.md#path-d--detecting-chemicals-air-pollution-sentinel-5p), download it, open it with xarray and plot it over Taiwan.
+- PyTorch tutorial: [Transfer Learning for Computer Vision](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html). Compare fine-tuning the whole network with freezing it and training only the last layer.
+
+**Build: a land-cover classifier**
+
+[EuroSAT](https://github.com/phelber/eurosat) has 27,000 [Sentinel-2](https://sentiwiki.copernicus.eu/web/s2-mission) image patches in 10 land-cover classes, and torchvision downloads it for you ([`torchvision.datasets.EuroSAT`](https://pytorch.org/vision/stable/generated/torchvision.datasets.EuroSAT.html)). Classifying satellite patches is exactly what Path C does later with dump sites.
+
+On **one fixed train/val/test split**, train:
+1. a small CNN from scratch
+2. a pretrained ResNet with its backbone frozen
+3. the same ResNet, fully fine-tuned
+
+Report test accuracy with a 95% interval: for accuracy *p* on *n* images, *p* ± 1.96·√(*p*(1−*p*)/*n*). Add one paragraph on whether pretraining was worth it.
+
+**Done when**
+- [ ] Three runs on one split, results table with intervals
+- [ ] Test set used once, at the end
+- [ ] Log entry written
+
+---
+
+## Path D prep — Gridded data and tabular models
+
+**Compute:** Kaggle or Colab on CPU, or your own laptop; there's no GPU work here. Watch the disk space, though: each Sentinel-5P NO₂ file is about 600 MB, so a month of daily files is roughly 19 GB. Process one file at a time: cut it down to Taiwan, save that small piece, and delete the original. On Kaggle, switch Internet on to download.
+
+**From your course notebooks**
+- [`M01-6_numpy`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M01-6_numpy.ipynb) and [`M01-lab5_numpy_matplotlib`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M01-lab5_numpy_matplotlib.ipynb): arrays and plotting. xarray is built on NumPy, and your NO₂ map is a matplotlib plot
+- [`M02-3_linear_regression`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M02-3_linear_regression.ipynb) and [`M02-lab2_linear_regression`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M02-lab2_linear_regression.ipynb): linear regression and MSE, for satellite vs station
+- [`M05-lab5_audit_your_model`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M05-lab5_audit_your_model.ipynb): group-aware cross-validation, the idea behind `GroupKFold` by station
+- [`M06-5_taiwan_deployment`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M06-5_taiwan_deployment.ipynb) and [`M06-lab3_taiwan_handson`](https://colab.research.google.com/github/jsbioasp/taiwan-waste-lab/blob/main/course-notebooks/M06-lab3_taiwan_handson.ipynb): checking a model against official numbers with Spearman rank correlation, the same kind of check as satellite vs ground
+
+**Learn**
+- The [xarray tutorial](https://tutorial.xarray.dev/): working with gridded data such as NetCDF files
+- scikit-learn [`GroupKFold`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupKFold.html): keeping each station's data in one fold
+
+**Practice**
+- Find a [Sentinel-5P](https://sentiwiki.copernicus.eu/web/s5p-mission) NO₂ file with the snippet in the [README's Path D](../README.md#path-d--detecting-chemicals-air-pollution-sentinel-5p), download it, open it with xarray and plot it over Taiwan.
 
 **Build: an NO₂ map of Taiwan**
 
-Average a month of NO₂ and map it. If you have a MOENV API key, pair a few stations with the satellite values and fit a linear regression, scored with `GroupKFold` by station.
+Average a month of NO₂ and map it, with a short description of the hotspots. If you have a MOENV API key, pair a few stations with the satellite values and fit a linear regression, scored with `GroupKFold` by station.
 
 **Done when**
-- [ ] A monthly NO₂ map with a short description of the hotspots
+- [ ] Monthly NO₂ map with the hotspots described
 - [ ] If you have station data: a held-out-station score
 - [ ] Log entry written
 
 ---
 
-## Extras
+## Going further (optional)
 
-- **Share a demo:** [Learn PyTorch 09: Model Deployment](https://www.learnpytorch.io/09_pytorch_model_deployment/) and the [Gradio quickstart](https://www.gradio.app/guides/quickstart). Host it on [Hugging Face Spaces](https://huggingface.co/spaces).
-- **More fast.ai:** the full [Practical Deep Learning](https://course.fast.ai/) course
-- **More depth:** CS231n [course notes](https://cs231n.github.io/) and assignments; the remaining EECS 498 lectures
+- Another path's prep week
+- [Learn PyTorch 04](https://www.learnpytorch.io/04_pytorch_custom_datasets/) and [05](https://www.learnpytorch.io/05_pytorch_going_modular/): custom datasets and tidy project code, useful on any path
+- Andrej Karpathy, [A Recipe for Training Neural Networks](https://karpathy.github.io/2019/04/25/recipe/)
+- Share a demo: [Learn PyTorch 09](https://www.learnpytorch.io/09_pytorch_model_deployment/), the [Gradio quickstart](https://www.gradio.app/guides/quickstart) and [Hugging Face Spaces](https://huggingface.co/spaces)
 
-## Left out on purpose
-
-- **CNN from scratch:** you did it in the course (M03, M04); Day 0 covers a refresher.
-- **Mask R-CNN instance segmentation:** no current path needs a mask for each individual object.
-- **GANs and style transfer:** no current path uses them. The course already covered network visualization (M04's Deep Dream and interpretability labs).
-- **Hand-derived gradients:** the course favours understanding over derivations. The paper exercises here are about evaluation (IoU, NMS, average precision), because those are what you'll use to judge your own results.
-
-When you're done, pick a path in [`PATHS.md`](PATHS.md).
+When you're done, head to your path in [`PATHS.md`](PATHS.md).
