@@ -4,6 +4,8 @@ A student research repo with two goals in Taiwan: **detecting waste**, and **det
 
 This is a research starter, not finished software. The code that's here runs and is tested. Nothing in it has yet been shown to work on Taiwan; finding out what does is the project. The work is organized into **research paths**. Pick one, combine them, or propose your own; new paths get added as good ideas come up. [`docs/PATHS.md`](docs/PATHS.md) has guidance for each path and a [glossary](docs/PATHS.md#new-terms). Terms in this README are linked or explained where they first appear.
 
+**New here? Start with the [self-study prep](#self-study-prep-do-this-first)**, four weeks of free courses and small projects, then pick a path.
+
 ## Research paths
 
 | Path | What you'd detect | Data | Status |
@@ -21,6 +23,20 @@ This is a research starter, not finished software. The code that's here runs and
 
 **D. Detecting chemicals: air pollution.** [Sentinel-5P](https://sentiwiki.copernicus.eu/web/s5p-mission) is a European satellite carrying [TROPOMI](https://www.tropomi.eu/), a spectrometer that identifies gases by the way they absorb sunlight. Examples are nitrogen dioxide (NO₂, mostly from traffic and power plants) and sulfur dioxide (SO₂, from burning coal and oil). MOENV runs ground stations to check it against. This is the one path with real chemical detection, and it's mostly tabular modelling, like the shelter project.
 
+## Self-study prep (do this first)
+
+The course covered image classification, CNNs and pretrained models. The paths also need **object detection**, **segmentation** and **honest evaluation**. [`docs/PREREQS.md`](docs/PREREQS.md) fills that gap in about four weeks (roughly 10 hours a week). Each week has lectures to watch, a guided assignment and a small project, all linked.
+
+| Week | Focus | Project | Gets you ready for |
+|---|---|---|---|
+| [Day 0](docs/PREREQS.md#day-0-optional-refresher) (optional) | CNN refresher | Re-run your course CNN notebooks | — |
+| [Week 1](docs/PREREQS.md#week-1--transfer-learning-done-fairly) | Transfer learning, done fairly | Land-cover classifier on [EuroSAT](https://github.com/phelber/eurosat) Sentinel-2 patches: from scratch vs frozen vs fine-tuned | Paths B and C |
+| [Week 2](docs/PREREQS.md#week-2--how-detectors-work-and-how-theyre-scored) | How detectors work and how they're scored | Your own IoU and NMS, checked against torchvision, plus a note on how detection scores mislead | Path A |
+| [Week 3](docs/PREREQS.md#week-3--train-a-real-detector) | Train a real detector | YOLO drone-litter detector on [UAVVaste](https://uavvaste.github.io/), with error analysis | Path A |
+| [Week 4](docs/PREREQS.md#week-4--pick-by-path) | Segmentation, *or* gridded data | U-Net on MARIDA, *or* a Sentinel-5P NO₂ map of Taiwan | Path B, *or* Path D |
+
+Main resources: [Learn PyTorch](https://www.learnpytorch.io/), the [EECS 498 lecture videos](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r), [CS231n](https://cs231n.stanford.edu/), the [PyTorch tutorials](https://pytorch.org/tutorials/) and the [Ultralytics docs](https://docs.ultralytics.com/).
+
 ## Getting started (every path)
 
 ```bash
@@ -30,9 +46,6 @@ python -m unittest discover -s tests -v             # 8 tests should pass
 ```
 
 For Kaggle and Colab (GPU, uploading data, saving outputs), see [`docs/STUDENT_START.md`](docs/STUDENT_START.md). Keep a [research log](docs/LOG.md) as you go.
-
-**Before the paths:** [four weeks of prep](docs/PREREQS.md) covering transfer learning, how object detectors work and are scored, training a real detector, and segmentation (or gridded data for Path D). It links free courses, tutorials and a small project each week.
-
 ---
 
 ## Path A — Drone litter (HAIDA)
