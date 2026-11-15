@@ -281,6 +281,7 @@ The spectra code (`prepare-spectra`, `configs/toy-spectra.json`, the 1-D CNN and
 - [ ] Add the student as a collaborator (or have them fork)
 - [ ] MDImageNet access (Taiwan coastal photos, 34 litter types): a real material breakdown for Path A
 - [ ] Request the Society of Wilderness 121-station beach survey table: ground truth for Path B
+- [ ] Share the course data bundles (`petfinder-mini`, `aac-mini`, `m06-photos`) that the M05/M06 notebooks in `course-notebooks/` need. Plan: keep the Drive files *Restricted*, list the links in `course-notebooks/README.md`, and have students click **Request access**. The notebooks' `gdown` download only works for "Anyone with the link" files, so approved students download the zip in their browser and unzip it into the folder each notebook expects.
 
 ## Docs
 
